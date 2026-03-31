@@ -3,7 +3,7 @@
 **Product:** JustScore Basketball Scoreboard  
 **Company:** JustInTymeSports, LLC  
 **Website:** [justintymesports.net](https://www.justintymesports.net)  
-**Scoreboard URL:** [justscore.netlify.app](https://justscore.netlify.app)  
+**Scoreboard URL:** [justscore.justintymesports.net](https://justscore.justintymesports.net)  
 **Started:** March 21, 2026  
 
 ---
@@ -115,15 +115,28 @@ Kid sets up JustScore → runs shot clock down → makes buzzer beater → recor
 
 ### Hosting
 - **Platform:** Netlify (free tier)
-- **URL:** justscore.netlify.app
-- **Deployment:** Drag and drop folder to Netlify dashboard
-- **Future:** Custom domain `scoreboard.justintymesports.net` via DNS CNAME
+- **URL:** justscore.justintymesports.net (custom domain, live as of v4.12)
+- **Deployment:** GitHub → Netlify auto-deploy (connected March 31, 2026)
+- **Previous deployment method:** Drag and drop zip to Netlify dashboard — retired
+- **Netlify deploy credits:** 28 remaining as of March 31 — no longer consumed via GitHub integration
+- **SSL:** Netlify-managed, auto-renewing, covers custom domain ✅
+- **Analytics:** Available in Netlify dashboard ✅
 
 ### GitHub
-- GitHub account creation was blocked by inaccessible CAPTCHA puzzles
-- Netlify chosen as simpler alternative — drag and drop, no puzzles
-- GitHub still worth pursuing for version control — try again from different network
-- When ready: create a GitHub Organization (not personal account) — 4 partners
+- **Account:** github.com/jptymes (personal account — jptymes)
+- **Repository:** github.com/jptymes/justscore (public, HTML)
+- **Branch:** main
+- **Connected to Netlify:** Yes — auto-deploys on every push to main ✅
+- **Current repo contents:** v4.14b — 20 files + JUSTSCORE_BUILD_GUIDE.md + README.md
+- **Git client:** Not yet installed locally — browser uploads used for now
+- **Organization:** Not yet created — plan to create JustInTymeSports org and transfer repo when 4 partners are ready
+- **Previous blocker:** GitHub account creation was blocked by inaccessible CAPTCHA — resolved by trying from different network
+- **Deploy process going forward:**
+  1. Make changes locally
+  2. Upload changed files to GitHub via browser (Add file → Upload files)
+  3. Commit message format: `vX.XX — brief description`
+  4. Netlify auto-deploys in ~30 seconds
+  5. Zero credits consumed
 
 ### PWA (Progressive Web App)
 - Single HTML file is not sufficient for true PWA install
@@ -866,24 +879,8 @@ Need more shirts. 😄
 ---
 
 *Last updated: March 31, 2026*  
-*Current version: v4.14b*  
+*Current version: v4.14a*  
 *Next: v4.15 — Android clipping fixes (Home − button right edge, ctrl bar bottom)*
-
----
-
-## v4.14b — March 31, 2026
-*Service worker cache bump, releases.html updated*
-
-### What Changed
-- **`sw.js` cache name updated** — bumped from `justscore-v4.13` to `justscore-v4.14a`. PWA users were potentially being served the old cached `index.html` from v4.13. This forces the service worker to install the new cache and serve updated files.
-- **`releases.html` updated** — v4.14 and v4.14a entries added. Page now reflects full current version history.
-- **First complete 19-file zip** — all real icon files, manifests, and supporting files included. No placeholder stubs.
-
-### Deployment Package — 19 files (all real files)
-`index.html`, `manifest.json`, `sw.js`, `favicon.ico`, `_redirects`, `CHANGELOG.md`,
-`help.html`, `justscore-cheatsheet.html`, `releases.html`,
-`icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-72.png`, `icon-96.png`,
-`icon-120.png`, `icon-152.png`, `icon-180.png`, `icon-192.png`, `icon-512.png`
 
 ---
 
@@ -1254,7 +1251,39 @@ Full details in product development notes. Key decisions:
 - [ ] Justin to share AI-enhanced photos for marketing use
 - [ ] Update Rave Capture About Us text to match new rewrite
 - [ ] Await Rave Capture response on AI/crawler visibility
-- [ ] Deploy help.html and cheatsheet when Netlify bandwidth resets
-- [ ] Update hamburger menu Help link to new help.html URL (v4.13)
+- [x] ~~Deploy help.html and cheatsheet when Netlify bandwidth resets~~ ✅ Done v4.13
+- [x] ~~Update hamburger menu Help link to new help.html URL~~ ✅ Done v4.13
 - [ ] Laser cut eyelet prototype — send DXF to vendor
 - [ ] Remove "PWA Beta" watermark from BC product page hero image
+- [ ] Install Git locally — enables command line push to GitHub vs browser upload
+- [ ] Create JustInTymeSports GitHub Organization when 4 partners ready — transfer repo
+
+---
+
+## March 31, 2026 — Infrastructure Session
+
+### GitHub + Netlify Pipeline — COMPLETE ✅
+
+- **GitHub account created:** github.com/jptymes (personal account)
+- **Repository created:** github.com/jptymes/justscore (public)
+- **v4.14b uploaded to GitHub:** 20 deployment files + JUSTSCORE_BUILD_GUIDE.md + README.md
+- **GitHub connected to Netlify:** Auto-deploy on push to main branch ✅
+- **Netlify team name:** JustInTymeSports (auto-detected from account)
+- **Deploy credits:** No longer consumed — GitHub integration uses zero credits
+- **Custom domain and SSL:** Unchanged — still fully active on Netlify ✅
+- **Site analytics:** Still available in Netlify dashboard ✅
+
+### Deploy Process — Updated
+Old process: Edit files locally → zip → drag and drop to Netlify (consumes 1 credit)
+New process: Edit files locally → upload to GitHub → Netlify auto-deploys in ~30 seconds (zero credits)
+
+### Build Guide Created
+`JUSTSCORE_BUILD_GUIDE.md` — file map, dependency chart, version update checklist, build and deploy instructions. Added to GitHub repo and project documents. Reference in every future session alongside CHANGELOG.md.
+
+### Deployment Package — Updated to 20 Files
+`justscore-qr-code.png` added — was missing from all previous packages. Cheatsheet footer QR code now renders correctly. All future packages = 20 files.
+
+### Pending Infrastructure
+- [ ] Install Git locally for command line workflow
+- [ ] Create GitHub Organization (JustInTymeSports) when partners ready
+- [ ] Transfer repo from jptymes personal to org account at that time
