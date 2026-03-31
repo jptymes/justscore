@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>JustScore Release Notes — JustInTymeSports</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #000000;
+  --panel:  #0d0d0d;
+  --card:   #111111;
+  --border: #1e1e1e;
+  --amber:  #ffb300;
+  --red:    #ff2244;
+  --green:  #00e676;
+  --text:   #e0e0e0;
+  --muted:  #888888;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Oswald', sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* HEADER */
+.site-header {
+  background: #050505;
+  border-bottom: 2px solid var(--amber);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand .logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.header-brand .sub {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.btn-launch {
+  background: var(--green);
+  color: #000;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px 32px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hero p {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* MAIN */
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* VERSION BLOCK */
+.version-block {
+  margin-bottom: 32px;
+}
+
+.version-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+
+.version-tag {
+  background: var(--amber);
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 14px;
+  border-radius: 4px;
+}
+
+.version-tag.current {
+  background: var(--green);
+}
+
+.version-date {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.version-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text);
+  flex: 1;
+}
+
+/* CHANGE ITEMS */
+.change-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.change-item {
+  display: flex;
+  gap: 12px;
+  background: #111;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  align-items: flex-start;
+}
+
+.change-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.change-type.fix    { background: #1a1200; color: var(--amber); border: 1px solid #3a2a00; }
+.change-type.new    { background: #0a1a0a; color: var(--green); border: 1px solid #1a3a1a; }
+.change-type.update { background: #0a0a1a; color: #88aaff;      border: 1px solid #1a1a3a; }
+.change-type.design { background: #1a0a1a; color: #dd88ff;      border: 1px solid #2a1a2a; }
+
+.change-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+.change-text strong {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+
+/* FOOTER */
+.site-footer {
+  background: #050505;
+  border-top: 1px solid var(--border);
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .version-header { flex-wrap: wrap; gap: 8px; }
+  .main { padding: 20px 14px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="logo">JustScore</div>
+    <div class="sub">Release Notes</div>
+  </div>
+  <a href="https://justscore.justintymesports.net" class="btn-launch">▶ Open Scoreboard</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Release Notes</h1>
+  <p>JustScore by JustInTymeSports &nbsp;•&nbsp; Version History</p>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- v4.14a -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag current">v4.14a</span>
+      <span class="version-date">March 31, 2026</span>
+      <span class="version-title">iOS Audio — Moved to Menu</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Audio enable banner removed</strong> — The floating "Tap to Enable Sound" banner introduced in v4.14 was overlapping the control bar buttons. Removed entirely.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>iOS Enable Sound menu item</strong> — On iOS devices, a "🔊 Enable Sound" item now appears at the top of the hamburger menu. Tap it once to enable audio. The item disappears after tapping. Android and desktop users are unaffected.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.14 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.14</span>
+      <span class="version-date">March 31, 2026</span>
+      <span class="version-title">Menu Scroll Fix & iOS Audio Unlock</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Menu scrollable</strong> — Hamburger menu now scrolls on small screens in landscape. Previously the Links section and below were unreachable on phones.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>iOS audio unlock</strong> — iOS Safari requires a user gesture before audio can play. Added unlock mechanism so the game clock horn and shot clock buzzer fire correctly on iOS devices.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.13 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.13</span>
+      <span class="version-date">March 30, 2026</span>
+      <span class="version-title">Footer, Help Page & Release Notes</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Footer layout</strong> — "Dream Big. Play Hard." now appears on the left. JustInTymeSports on the right.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Footer text</strong> — "Dream Big. Play Hard." now displays in full white. Previously dimmed to 50% opacity.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Help page</strong> — Full help documentation now live at <a href="https://justscore.justintymesports.net/help" style="color:var(--amber)">justscore.justintymesports.net/help</a>. Covers quick start, install, game presets, controls, keyboard shortcuts, FAQ, and contact.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Keyboard cheat sheet</strong> — Printable one-page reference card with all keyboard shortcuts, game presets, and QR code. Available at <a href="https://justscore.justintymesports.net/justscore-cheatsheet.html" style="color:var(--amber)">justscore-cheatsheet.html</a>.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type update">Update</span>
+        <span class="change-text"><strong>Help link</strong> — Hamburger menu Help button now opens the new help page instead of the general support page.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Release Notes</strong> — This page. Version history now accessible from the hamburger menu.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.12 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.12</span>
+      <span class="version-date">March 28, 2026</span>
+      <span class="version-title">HTTPS Fix & Custom Domain</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>HTTPS warning resolved</strong> — Removed BC-hosted logo image that was causing mixed content warning. JustScore now loads with full HTTPS security on all browsers.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Custom domain live</strong> — JustScore now available at <a href="https://justscore.justintymesports.net" style="color:var(--amber)">justscore.justintymesports.net</a> with SSL certificate.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>HTTP redirect</strong> — All http:// traffic automatically redirects to https://. Old Netlify URL redirects to custom domain.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Missing icons added</strong> — icon-16, icon-32, and icon-48 PNG files added. Resolves 404 errors in browser console.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Footer redesigned</strong> — Cleaner footer with no external image dependencies.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.11 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.11</span>
+      <span class="version-date">March 26, 2026</span>
+      <span class="version-title">Layout Proportions & Dot Size Caps</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>60/40 split</strong> — Score/clock area gets 6fr, foul/shot clock area gets 4fr. Better proportion on all screen sizes.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Dot size caps</strong> — Maximum dot size capped for score LEDs (22px) and foul LEDs (12px). Prevents oversizing on large screens.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Hamburger clearance</strong> — Added padding to prevent score labels from overlapping the menu button.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.10 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.10</span>
+      <span class="version-date">March 25, 2026</span>
+      <span class="version-title">LED Rendering Fixed</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>LED displays rendering</strong> — Resolved blank LED displays on Android and Chromebook. JavaScript now measures grid cell dimensions directly using ResizeObserver, ensuring LEDs render correctly at all screen sizes.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.8 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.8</span>
+      <span class="version-date">March 24, 2026</span>
+      <span class="version-title">CSS Grid Layout & Splash Screen</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>CSS Grid layout</strong> — Complete scoreboard rebuilt as 10-row × 3-column CSS Grid. Pixel-perfect proportions on every screen size.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Splash screen</strong> — 2-second branded intro screen on launch showing JustScore icon, name, and Dream Big. Play Hard. tagline.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Force landscape</strong> — Portrait overlay prompts users to rotate device. Scoreboard designed for landscape use.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.5 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.5</span>
+      <span class="version-date">March 23, 2026</span>
+      <span class="version-title">Dynamic Sizing & Visual Overhaul</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Dynamic JS sizing engine</strong> — LED dot sizes calculated mathematically to fill available space on any screen.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Round LEDs</strong> — All LED displays updated to circular dots. More authentic scoreboard appearance.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Full-bleed icons</strong> — Android PWA home screen icon updated to full-bleed green LED design.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>White text throughout</strong> — All labels and UI text updated to consistent white for readability.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.2 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.2</span>
+      <span class="version-date">March 22, 2026</span>
+      <span class="version-title">Mobile Responsiveness & PWA</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Mobile layout</strong> — Resolved element collisions on phones and tablets. Scoreboard now displays correctly on all screen sizes.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>PWA support</strong> — JustScore can now be installed on your home screen as an app. Works offline after first visit.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Favicon & icons</strong> — Green LED "2" icon set added for all platforms and screen sizes.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v1.0 original -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v1.0</span>
+      <span class="version-date">2005</span>
+      <span class="version-title">Original JustScore PC Scoreboard</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Original release</strong> — JustScore launched as a Windows desktop application companion to JustInTymeSports mini basketball hoops. Used by schools and gyms with projectors for real games. College, Pro, Mini-Pro, HORSE, 21, and Beat-The-Clock game modes.</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>JustScore is free &nbsp;•&nbsp; No download &nbsp;•&nbsp; Any device &nbsp;•&nbsp; By JustInTymeSports &nbsp;•&nbsp; Since 1996</p>
+</footer>
+
+</body>
+</html>

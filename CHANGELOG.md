@@ -420,11 +420,390 @@ Kid sets up JustScore → runs shot clock down → makes buzzer beater → recor
 - [ ] Inline keyboard shortcut reference (? button or overlay)
 
 ### Future Versions
+- [ ] **Extract audio files from HTML** ⭐ — currently buzzer.wav, horse.wav, doh.wav, applause.wav are base64-encoded inside index.html adding ~130KB to every page load. Extract to separate files so browsers cache them after first visit. Will reduce HTML from ~180KB to ~50KB and significantly cut Netlify bandwidth usage at scale. Priority before MailChimp campaign launch.
 - [ ] **Buzzer Beater game mode** ⭐ — *required before contest launch* — shot clock countdown, kid tries to make the shot before the horn
 - [ ] Document and promote casting feature — "Cast to your TV for the full gym experience" — include in MailChimp campaign and BC site
 - [ ] Mini-hoop games: HORSE (1–6 players, custom word), Twenty-One (2–3 players), Beat-The-Clock
 - [ ] Remote control mode — scoreboard on wall tablet, controller on phone (Firebase sync)
 - [ ] Save/load game state
+- [ ] **Scoreboard sharing via Teams / Google Meet** — user shares JustScore screen in a video call. Remote grandparents watch grandkids play live with a real scoreboard. Grandparents in Florida, grandkids in Grand Rapids — in real time. Technically trivial (screen share is built into every platform) — the opportunity is documenting and promoting this use case. Major brand story moment.
+- [ ] **JustMove** — brand extension concept. Same philosophy as JustScore applied to broader physical activity. "Keep Your Mind On The Goal." Bookmark for future brand strategy discussion.
+- [ ] **"What's Your Goal?"** — original JustInTymeSports tagline, retired as primary but not forgotten. Could live again as a campaign, youth program, or product line. The dual meaning (basketball goal / life goal) is still powerful in the right context.
+
+---
+
+## March 30, 2026 — Remote Control Use Case & Display Sync
+
+### The Core Problem Identified
+
+Current JustScore architecture requires one device to be both controller AND display. When scoreboard is mounted high on wall (near hoop), the person controlling the score has to look down at their phone — breaking the game experience.
+
+**The ideal setup:**
+```
+High on wall near hoop:
+[JustInTymeSports hoop]
+[JustBoard display — tablet or small TV]
+[Scoreboard visible to all players]
+
+In hand:
+[Phone as controller]
+[Tap to score, start/stop clock]
+[No need to look at phone — score is on the wall]
+```
+
+This use case is fundamental to the JustBoard display station concept, the break room deployment, and the classroom deployment.
+
+### Solutions — Current and Future
+
+**Works TODAY — Chromecast to Small TV:**
+```
+Phone running JustScore
+Cast to small TV or monitor near hoop
+Phone controls everything
+TV displays everything — visible to all players
+```
+- 24" TV with built-in Chromecast: $129-179
+- Any TV + Chromecast dongle ($35): most cost effective
+- Amazon Fire TV Stick on any HDMI monitor: $35+
+- Wall mount near hoop: $15-25
+- Best current solution for break room and classroom
+- No new development needed
+
+**Future — Remote Control / Display Sync (PRIORITY ELEVATED):**
+
+Option A — Game Code Sync (simpler, recommended):
+```
+Device 1: Tap [Share Game] → generates code: 4729
+Device 2: Enter code 4729
+Both connected to same game state via WebSocket
+Either device can control
+Changes sync in real time
+```
+Simple 4-digit game code. No account. No Firebase complexity. Lightweight WebSocket sync. Elegant and on-brand (private, simple, no friction).
+
+Option B — Firebase sync (more complex, more robust):
+```
+Full real-time database sync
+Multiple controllers possible
+More infrastructure required
+```
+
+### Revised Development Priority
+
+```
+v4.13: Footer, help page, cheatsheet ✓ DONE
+v4.14: Android clipping fixes (right edge, ctrl bar)
+v4.15: Remote control / display sync ← ELEVATED
+        Game code approach recommended
+        Unlocks JustBoard product concept
+        Enables break room / classroom deployment
+v4.16: Buzzer Beater game mode
+v4.17: What's Your Goal? feature
+v4.18: JustMove platform
+```
+
+### JustBoard Display Station — Product Concept
+
+A tablet/phone mount that matches JustInTymeSports backboard aesthetic:
+
+**Design language:**
+- Polycarbonate face
+- Steel or 3D printed frame
+- Orange accent details
+- JustInTymeSports branding
+- "WHAT'S YOUR GOAL?" or "JUSTSCORE" router engraved
+- Mirrors backboard family visual language
+
+**Manufacturing paths:**
+- Option A: Laser cut steel frame + poly face (existing vendor)
+- Option B: 3D printed frame + poly face (prototype path)
+- Option C: Full Color Core HDPE (neighbor vendor)
+- Recommend: 3D print prototype first, laser/Color Core for production
+
+**Product line:**
+```
+JustBoard Phone Mount
+JustBoard Tablet Mount (7-8")
+JustBoard Tablet Mount (10")
+Available in team colors via Color Core
+Custom engraving: "WHAT'S YOUR GOAL?" etc.
+```
+
+**Break room complete package:**
+```
+JustInTymeSports hoop (customer choice)
++ JustBoard display station
++ Small TV or tablet
++ JustScore (free, pre-configured)
++ "WHAT'S YOUR GOAL?" backboard option
+Price: $399-599 installed
+Corporate bulk pricing available
+```
+
+**Classroom complete package:**
+```
+Mini Pro 2.0 hoop
++ JustBoard display station
++ STEM activity worksheets
++ Teacher guide
++ JustScore (free)
+Price: $299-399
+Grant eligible: Physical activity + STEM + SEL
+```
+
+### Phone to Tablet Casting — Research Summary
+
+Native casting from phone to tablet is NOT built into Android or iOS. Requires third party apps:
+- AirDroid Cast — most versatile, free basic tier
+- Samsung Flow — Samsung devices only, works well
+- Miracast — if both devices support it
+
+**Recommendation:** Don't cast phone to tablet for JustBoard. Run JustScore directly ON the tablet. Use remote control sync feature (v4.15) for phone-as-controller when built. Until then — Chromecast to TV is the best wall display solution.
+
+### llm.txt — Rave Capture Integration
+
+Rave Capture responded with calendar invite and suggested llm.txt and llms-full.txt files — emerging standard for AI/LLM content discovery.
+
+**What these files do:**
+- Structured content files readable by AI language models
+- Similar to robots.txt but designed for AI systems
+- Makes reviews, descriptions, and content directly AI-readable
+- Closes the JavaScript invisibility gap for 1,880 reviews
+
+**Implementation:**
+- Text files uploaded to root domain
+- justintymesports.net/llm.txt ← ideal (BC file upload)
+- justscore.justintymesports.net/llm.txt ← fallback (Netlify)
+- No developer needed if BC allows static file uploads
+- Rave Capture calendar meeting scheduled — confirm details
+
+**Action items:**
+- [ ] Attend Rave Capture meeting — confirm llm.txt content and update frequency
+- [ ] Upload llm.txt to BC root if supported
+- [ ] Add llms-full.txt with complete review content
+- [ ] Add Rave Capture help doc link to changelog when available
+- [ ] Confirm BC supports HTML file uploads for instruction pages
+- [ ] If confirmed — build mobile-optimized HTML instruction pages per hoop model
+
+---
+
+## March 30, 2026 — Brand Philosophy Session
+
+### The Core Discovery
+
+Today's conversation surfaced the deepest articulation of the JustInTymeSports brand philosophy to date. These insights emerged organically from a story about Justin's oldest boy (the boy in glasses) watching MSU's Cohen Carr make a brilliant baseline save — then going downstairs to practice that exact move on his JustInTymeSports hoop — then making it in a real game.
+
+**The two lines that define everything:**
+
+*"The goal is the dream in process."*
+*"We teach kids how to dream."*
+
+These are not marketing copy. They are a truth that has played out in the Tymes family across three generations — and in every kid who ever walked past a craft show booth and whose face changed when they saw the hoops.
+
+---
+
+### JustScore — Reframed
+
+JustScore is not a scoreboard app. It is a **youth development platform disguised as a game.**
+
+```
+Kids think:       "I'm playing basketball"
+What's happening: "I'm setting goals, tracking progress,
+                   building skills, measuring improvement,
+                   learning to dream bigger"
+```
+
+The best learning never feels like learning.
+
+**The platform stack:**
+- **JustScore** — the game (scoreboard, clock, real competition)
+- **What's Your Goal?** — the dream (set it, name it, own it)
+- **JustMove** — the body (track activity, movement, progress)
+- **The Gallery** — the achievement (share when YOU choose)
+- **The Recording** — the proof (your moment, your story)
+
+---
+
+### The Privacy Principle — Core Differentiator
+
+```
+No algorithm deciding what gets seen
+No strangers commenting
+No likes to chase
+No comparison to others
+No data sold
+No account required
+
+Just:
+A kid. A goal. A hoop.
+Progress that belongs to them.
+Share only what and when you want.
+```
+
+This is a genuine differentiator from every platform targeting kids in 2026.
+
+**The parent pitch:**
+```
+Social media:  Public. Permanent. Algorithmic. Addictive.
+JustScore:     Private. Local. Purposeful. Physical.
+```
+
+**The screen time reframe:**
+- "Not screen time. Development time."
+- "The only platform that makes kids put down the phone and pick up a ball."
+
+---
+
+### The Screen Share / Recording Discovery
+
+JustScore + Google Meet/Teams screen share + camera on = free game recording platform.
+
+**What this enables:**
+- Grandparents watch live games remotely (scoreboard + camera simultaneously)
+- Game recording with scoreboard overlay — no equipment needed
+- Buzzer Beater contest entries — verifiable, authentic, impossible to fake
+- Dream Big. Play Hard. Gallery Contest entries
+
+**The contest submission path:**
+```
+Start Meet/Teams call
+Share JustScore screen
+Turn camera on → captures the game
+Hit Record
+Play ball
+Submit recording to DBPH Gallery Contest
+```
+
+No GoPro. No editing software. No third party app. Free. Works today.
+
+---
+
+### What's Your Goal? — The Feature
+
+A goal-setting and tracking feature within JustScore/JustMove:
+
+```
+Kid opens app
+Enters their goal:
+  - Score 50 points in one game
+  - Make 10 free throws in a row
+  - Do 100 pushups this week
+  - Run a mile / walk 10,000 steps
+  - Master the Cohen Carr baseline save
+Tracks progress
+Saves locally per player — private, no account
+Celebrates when achieved
+```
+
+**Key principle:** Local storage only. No server. No account. No data shared unless the kid chooses. Completely private by default.
+
+**The curriculum:**
+- What's Your Goal? = names the dream
+- JustScore = makes the practice real
+- JustMove = tracks the body
+- The Gallery = celebrates the achievement
+
+---
+
+### The Cohen Carr Loop
+
+The complete dream-to-achievement cycle, named after the moment that revealed it:
+
+```
+Watch    → Cohen Carr makes a brilliant baseline save on TV
+Dream    → "I can do that" — What's Your Goal?
+Practice → JustInTymeSports hoop, downstairs, alone
+Achieve  → Makes the same save in a real game
+Record   → Meet/Teams screen share + camera
+Share    → DBPH Gallery Contest, if they choose
+```
+
+This loop is what JustInTymeSports has enabled since 1996. The digital platform makes it visible, trackable, and shareable — without changing what it fundamentally is.
+
+---
+
+### The Competitive Landscape
+
+Nobody owns this space:
+
+```
+Peloton:          Adult fitness, subscription, expensive
+Nike Training:    Adult, generic, no real community
+Youth sports apps: Team focused, coach driven, public
+Social media:     Dangerous for kids, algorithmically addictive
+
+JustScore:        Kid driven, private, free, physical,
+                  goal-oriented, family connected,
+                  Made in America by a family that has been
+                  teaching kids to dream since 1996
+```
+
+---
+
+### The Business Philosophy
+
+**Free forever:** Core scoreboard — always. Non-negotiable. It is the thank you.
+
+**Optional future layers:**
+- Premium goal tracking features
+- School / YMCA institutional licenses
+- Coach team goal dashboards
+- Brand partnerships aligned with youth development (not ads)
+
+None of these compromise the privacy principle. All optional. Core always free.
+
+---
+
+### The Brand Statement
+
+*JustInTymeSports builds the tools that turn dreams into goals and goals into achievements. The hoop is where it starts. JustScore is where it gets real. What's Your Goal is where kids learn the most important skill of all — how to dream on purpose.*
+
+*Private. Free. Physical. Fun.*
+
+*Dream Big. Play Hard.*
+
+---
+
+### The T-Shirt
+
+The cartoon image of Justin's boys — "DREAM BIG. PLAY HARD." on the shirt — is now a merchandise line:
+
+```
+Kids sizes      — cartoon image, DREAM BIG. PLAY HARD.
+Adult sizes     — for parents and coaches
+Youth leagues   — bulk orders for teams
+Justin's YMCA teams — natural distribution
+Contest prize   — included with Dream Big. Play Hard. hoop
+```
+
+Need more shirts. 😄
+
+---
+
+### Key Phrases Coined Today — Do Not Lose These
+
+- **"The goal is the dream in process."**
+- **"We teach kids how to dream."**
+- **"Not screen time. Development time."**
+- **"Share only what and when you want."**
+- **"The only platform that makes kids put down the phone and pick up a ball."**
+- **"Private. Free. Physical. Fun."**
+- **"The Cohen Carr Loop"** — watch → dream → practice → achieve → record → share
+
+---
+
+### Action Items from This Session
+
+- [ ] Share "The goal is the dream in process / We teach kids how to dream" with Justin and Jeremy — get family input
+- [ ] Consider adding these lines to About Us and Mission
+- [ ] Draft "What's Your Goal?" feature spec for JustScore roadmap
+- [ ] Blog post: "How to Record Your Kids' Basketball Games for Free"
+- [ ] Blog post: "How to Share JustScore with Family on Video Calls"
+- [ ] Blog post: "What's Your Goal? How We Teach Kids to Dream"
+- [ ] Explore T-shirt production — cartoon image, DBPH tagline
+- [ ] Check inventory on Dream Big. Play Hard. Limited Edition hoop — contest prize candidate
+- [ ] Define DBPH Gallery Contest structure and submission process
+- [ ] JustMove — begin feature definition when JustScore stable
 - [ ] Sound effects beyond buzzer — horse neigh (HORSE game), Bart Simpson doh (21 game), applause (winner)
 - [ ] 3rd player support for Twenty-One and Beat-The-Clock
 - [ ] Sub-second clock display (1/10 second) when under 1 minute
@@ -486,9 +865,78 @@ Kid sets up JustScore → runs shot clock down → makes buzzer beater → recor
 
 ---
 
-*Last updated: March 26, 2026*  
-*Current version: v4.8 — milestone build*  
-*Next: color review, custom domain, QR code, Buzzer Beater mode*
+*Last updated: March 31, 2026*  
+*Current version: v4.14b*  
+*Next: v4.15 — Android clipping fixes (Home − button right edge, ctrl bar bottom)*
+
+---
+
+## v4.14b — March 31, 2026
+*Service worker cache bump, releases.html updated*
+
+### What Changed
+- **`sw.js` cache name updated** — bumped from `justscore-v4.13` to `justscore-v4.14a`. PWA users were potentially being served the old cached `index.html` from v4.13. This forces the service worker to install the new cache and serve updated files.
+- **`releases.html` updated** — v4.14 and v4.14a entries added. Page now reflects full current version history.
+- **First complete 19-file zip** — all real icon files, manifests, and supporting files included. No placeholder stubs.
+
+### Deployment Package — 19 files (all real files)
+`index.html`, `manifest.json`, `sw.js`, `favicon.ico`, `_redirects`, `CHANGELOG.md`,
+`help.html`, `justscore-cheatsheet.html`, `releases.html`,
+`icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-72.png`, `icon-96.png`,
+`icon-120.png`, `icon-152.png`, `icon-180.png`, `icon-192.png`, `icon-512.png`
+
+---
+
+## v4.14a — March 31, 2026
+*iOS audio unlock — moved to menu, removed floating banner*
+
+### What Changed
+- **Floating audio unlock banner removed** — the "🔊 Tap to Enable Sound" amber banner introduced in v4.14 was overlapping the ctrl bar buttons (STOP, ↺ CLOCK), blocking controls. Removed entirely.
+- **iOS-only menu item added** — "🔊 Enable Sound" now appears as the first item in the hamburger menu, above the Game section, but only on iOS devices (detected via user agent + `maxTouchPoints`). Tapping it unlocks audio and closes the menu. The item disappears after unlock.
+- **Non-iOS devices unaffected** — Android and desktop never see the menu item. Zero UI change for them.
+- **iPad detection included** — newer iPads report as desktop Safari but have `maxTouchPoints > 1`; handled correctly.
+- **Version updated** — Release Notes menu link updated to v4.14a.
+
+### Why v4.14a vs v4.15
+The floating banner was a usability regression introduced in v4.14. Patching it as v4.14a keeps the v4.15 slot reserved for the planned Android clipping fixes.
+
+### Deployment — 2 files changed
+Only `index.html` and `CHANGELOG.md` changed from v4.14. All other 17 files unchanged.
+
+---
+
+## v4.14 — March 30, 2026
+*Menu scroll fix, iOS audio unlock*
+
+### What Changed
+- **Menu scroll fix** — hamburger flyout menu now scrollable on small screens. Added `overflow-y: auto`, `max-height: 100%`, and `-webkit-overflow-scrolling: touch` to `#flyout`. Previously the menu was clipped on Android phones in landscape — Links section and below were unreachable.
+- **iOS audio unlock** — iOS Safari requires audio to be triggered within a user gesture call stack. Clock horn and shot clock buzzer were silently blocked on iOS because they fire from a `setInterval` callback, not directly from a tap. Fix: on first `touchstart` anywhere on screen, all audio elements are primed with a silent play/pause. After this one-time unlock, all programmatic audio (horn, buzzer) fires correctly. A small amber "🔊 Tap to enable sound" indicator appears on launch and auto-dismisses after the first tap.
+- **Version updated** — hamburger menu Release Notes link updated to v4.14.
+
+### iOS Compatibility Notes (first iOS test planned)
+- Audio unlock resolves the primary known iOS blocker
+- PWA install on iOS requires Share → Add to Home Screen in Safari (no auto-prompt like Android)
+- `help.html` iOS install instructions should be verified/updated
+- `contenteditable` team names will trigger iOS keyboard — may cause layout reflow, worth testing
+- All other elements (CSS Grid, ResizeObserver fallback, touch-action, user-select) already iOS-compatible
+
+### What Prompted This Build
+- Android testing revealed menu cut off below Links section in landscape
+- iOS testing not yet started — audio unlock added proactively before first iOS test
+
+### Deployment Package — 19 files (unchanged from v4.13)
+`index.html`, `manifest.json`, `sw.js`, `favicon.ico`, `_redirects`, `CHANGELOG.md`,
+`help.html`, `justscore-cheatsheet.html`, `releases.html`,
+`icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-72.png`, `icon-96.png`,
+`icon-120.png`, `icon-152.png`, `icon-180.png`, `icon-192.png`, `icon-512.png`
+
+### Still Pending
+- [ ] Android right edge clipping (Home − button) → v4.15
+- [ ] Android ctrl bar bottom clipping → v4.15
+- [ ] Extract audio files from HTML (reduces ~180KB → ~50KB)
+- [ ] iOS first test — verify audio unlock, PWA install, team name keyboard behavior
+- [ ] Update `help.html` with iOS-specific PWA install instructions
+- [ ] `releases.html` — add v4.14 entry
 
 ---
 
@@ -595,3 +1043,218 @@ The "broken HTTPS" warning was caused by the BC logo loading from `cdn11.bigcomm
 `index.html`, `manifest.json`, `sw.js`, `favicon.ico`, `_redirects`, `CHANGELOG.md`,
 `icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-72.png`, `icon-96.png`,
 `icon-120.png`, `icon-152.png`, `icon-180.png`, `icon-192.png`, `icon-512.png`
+
+---
+
+## v4.13 — March 30, 2026
+*Footer fix, Help page, Cheat Sheet, Release Notes page, updated menu*
+
+### What Changed
+- **Footer layout fixed** — "Dream Big. Play Hard." now on LEFT, JustInTymeSports on RIGHT. Changed `justify-content` from `flex-end` to `space-between` and swapped HTML element order.
+- **DBPH color** — removed `opacity:0.5` from `#brand-tag`. Text is now full white — more visible and consistent with brand presentation.
+- **Help link updated** — hamburger menu Help button now points to `https://justscore.justintymesports.net/help`
+- **help.html deployed** — full help page now live at `justscore.justintymesports.net/help`
+- **justscore-cheatsheet.html deployed** — printable keyboard cheat sheet with QR code
+- **releases.html** — new release notes page at `justscore.justintymesports.net/releases.html`. Covers v1.0 (2005) through v4.13. Each entry has typed badges: Fix, New, Update, Design.
+- **Hamburger menu updated** — version number removed from bottom of menu. Links section now reads:
+  - Shop Our Hoops ↗
+  - Help ↗
+  - Keyboard Cheat Sheet ↗
+  - Release Notes — v4.13 ↗
+- **flyout-version CSS** — set to `display:none` (element kept for compatibility, hidden)
+- **Service worker** updated to `justscore-v4.13`
+
+### Deployment Package — 19 files
+`index.html`, `manifest.json`, `sw.js`, `favicon.ico`, `_redirects`, `CHANGELOG.md`,
+`help.html`, `justscore-cheatsheet.html`, `releases.html`,
+`icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-72.png`, `icon-96.png`,
+`icon-120.png`, `icon-152.png`, `icon-180.png`, `icon-192.png`, `icon-512.png`
+
+### Note on file count
+19 files total — earlier references to "20 files" were a miscount. 19 is correct.
+
+### BC Product Page
+- Add link to releases.html from BC product page description
+- Suggested text: "JustScore is actively developed and updated. View release notes and version history →"
+
+### Still Pending (future versions)
+- [ ] Android right edge clipping (Home − button)
+- [ ] Android ctrl bar bottom clipping
+- [ ] maxDot scaling as % of screen height (held — some risk)
+- [ ] Extract audio files from HTML (reduces 180KB → ~50KB)
+- [ ] BC Support page — add link to help.html
+- [ ] Self-hosted logo PNG when available
+
+---
+
+
+
+### New Files Created (ready for v4.13 deployment)
+
+**help.html** — Full help page for `justscore.justintymesports.net/help`
+- Matches JustScore dark theme exactly — same Oswald font, amber/green/red color palette, LED aesthetic
+- Sticky header with Shop Hoops and Open Scoreboard buttons
+- Navigation pills for quick section jumping
+- Sections: Quick Start (4 steps), Install (Android/iPhone/Chromebook/Cast to TV), Game Presets (all 4 with specs), Controls (all elements explained), Keyboard shortcuts (complete), FAQ (10 questions, expandable), Contact
+- Mobile optimized, no external dependencies beyond Google Fonts
+- Footer: Dream Big. Play Hard. / JustInTymeSports / Grand Rapids / Since 1996
+
+**justscore-cheatsheet.html** — Printable one-page keyboard reference
+- Black header / white body / black footer — prints cleanly on letter paper
+- All keyboard shortcuts in two-column layout
+- All four game presets in a grid with full specs
+- Memory tip for guest/home key layout
+- QR code in footer (references `justscore-qr-code.png` — must be in same folder)
+- Print button shown on screen, hidden on print
+- Fits on one US letter page
+
+### Help Link — Pending v4.13 Update
+- Current: hamburger menu Help link → `https://www.justintymesports.net/support`
+- Update to: `https://justscore.justintymesports.net/help`
+- Also update: BC Product page Help link, BC Support page link
+
+### Deployment Notes
+- Add `help.html` and `justscore-cheatsheet.html` to Netlify folder alongside `index.html`
+- Both files are ready — held for deployment until Netlify bandwidth resets
+- QR code PNG must be in same directory as cheatsheet for footer image to load
+
+---
+
+## March 29, 2026 — Brand, Marketing & Product Strategy Session
+
+### Brand Documents Updated/Created
+
+**About Us Rewrite (Word doc)** — `JustInTymeSports_About_Us.docx`
+Full rewrite incorporating all new story elements. Sent to family for review.
+- Jeremy's full story — website at 14, partner, specific roles, personal review note embedded
+- Garage manufacturing detail — hand-welding frames, Justin tying nets by hand
+- Craft show moment — basketball kids whose faces changed
+- Before/after photo section — Justin's AI-enhanced photos of his boys
+- Extreme Makeover fully documented — Walker Family, December 2 2011, Ray Allen (Boston Celtics), all three Kardashians, Demi Lovato, Cody Simpson, Springfield MA, 111,000+ anti-bullying pledges, no invoice sent
+- Make-A-Wish donation referenced
+- Vision and Mission — approved March 2026
+- By the Numbers — expanded timeline including tagline origin and Extreme Makeover
+- Pull quotes throughout, publishing notes in yellow boxes
+- Giving Back section — dignity-first approach, told from JustInTymeSports side only
+
+**AEO Addendum** — `JustInTymeSports_AEO_Addendum.docx`
+Supplements original AEO audit with:
+- Vision and Mission formally documented
+- All brand story elements catalogued with AEO value ratings
+- Rave Capture discovery — 1,880 reviews, 4.9 stars, 9.9/10 TrustScore, 91% five-star
+- Visibility audit — reviews and Customer Gallery are JavaScript-loaded, invisible to AI crawlers
+- Rave Capture company page (app.ravecapture.com/store/JustInTymeSports) IS crawlable — link from main site
+- Five standout reviews worth featuring as static text
+- Photo archive catalogued with best use for each image
+
+### Vision & Mission — APPROVED March 29, 2026
+
+**Vision:**
+*A hoop on every wall. A dream in every kid. A scoreboard to make it real.*
+
+**Mission:**
+*To build the highest quality indoor basketball hoops in America — and everything that makes the dream come alive around them. Because we've seen it since 1996. The focus. The persistence. The progress. The moment a kid picks up a ball and stops seeing a basement — and starts seeing an arena. That moment is real. We build products for that moment. And JustScore, our free digital scoreboard, is our way of saying thank you for dreaming.*
+
+**Tagline notes:**
+- "Dream Big. Play Hard." — primary tagline, 30 years of equity, do not change
+- "Live the Dream" — use subtly as subtext where appropriate, NOT as a primary tagline
+- Original tagline "What's Your Goal?" — retired, do not use
+
+### Brand Story Elements — Confirmed Today
+- **Origin:** Justin at 9, broken hoop, plexiglass in basement, 1996
+- **Tagline origin:** "Dream Big. Play Hard." came from watching kids at craft shows — the focus, learning, persistence, and progress. Replaced "What's Your Goal?" which was too nuanced.
+- **Craft shows:** Basketball kids' faces changed the moment they saw the hoops — already somewhere else in their minds
+- **Jeremy:** Built first website at 14. Now a partner — tech, assembly, shipping, always a supporter. 5 years younger than Justin.
+- **Justin's boys:** Ages 7 and 8, grabbed phone to use JustScore, ran downstairs. Same age Justin was in 1996. Third generation.
+- **Extreme Makeover:** Walker Family episode, December 2 2011, ABC. Springfield MA. Ray Allen (not Allen Iverson — confirmed). All three Kardashians, Demi Lovato, Cody Simpson. 111,000+ anti-bullying pledges. Hoops donated, no invoice. Grand Rapids Press article December 3 2011 — SCAN IMMEDIATELY, only known physical record.
+- **Make-A-Wish:** Donated hoops, no invoice. Details TBC with Justin.
+- **JustScore as philosophy:** Free by design. "The dream shouldn't cost anything extra." Our way of saying thank you for dreaming.
+
+### Photo Assets — Identified and Catalogued
+- Justin & Jeremy at Grand Rapids Sports Hall of Fame booth (late 1990s) — About Us hero
+- Craft show car trunk — family hustle
+- Garage weld shop — Made in USA proof
+- Grand Rapids Drive halftime — hoop in professional arena, packed crowd
+- Gus Macker custom hoop — community partnership
+- Detroit Pistons / Extreme Makeover — donation story
+- Justin's AI-enhanced photos of his boys:
+  - Cartoon version — "Dream Big. Play Hard." on shirt, defender/shooter, brand mascot candidate
+  - Realistic edit — same boys, red carpet/grey wall replaced with hardwood court + three-point line
+  - Original photo — boys playing in actual JustInTymeSports facility (same red carpet and grey wall)
+- **KEY INSIGHT:** Before (original) / After (realistic edit) = most powerful marketing image. Shows what the kid really sees vs. what's actually there. "What they see. What they feel." Homepage hero candidate.
+- Grand Rapids Press article December 3 2011 — physical newspaper, only known record of Extreme Makeover story. SCAN AT HIGH RESOLUTION IMMEDIATELY.
+
+### Rave Capture — Critical AEO Finding
+- **1,880 total reviews** — 4.9 stars, 9.9/10 TrustScore, 10/10 Recommend, 91% five-star
+- Reviews on justintymesports.net product pages: JavaScript-loaded, **invisible to AI crawlers**
+- Customer Gallery on justintymesports.net: JavaScript-loaded, **invisible to AI crawlers**
+- Rave Capture company page (app.ravecapture.com/store/JustInTymeSports): static HTML, **visible to AI** ✓
+- Action: Link to Rave Capture page from homepage and product pages
+- Action: Publish "What Our Customers Say" blog post with top reviews as static text
+- Action: Contact Rave Capture about AI/crawler visibility — message sent March 29
+- Action: Update Rave Capture About Us text to match new rewrite
+
+### JustScore Product Page — BC
+- Rough draft created in BigCommerce
+- Hero image: multi-device mockup (phone, tablet, two laptops) with real hoop in background — created by John using Gemini
+- Price: $0.00 ✓
+- Help link will point to `justscore.justintymesports.net/help` when deployed
+- "PWA Beta" watermark to be removed from hero image before final launch
+
+### Product Innovation — Discussed
+Full details in product development notes. Key decisions:
+
+**Eyelet Redesign:**
+- Current: welded curl eyelet, ~1/2" standoff, outsourced to spring/die company
+- Problem: lever arm causes fatigue failure from dunk forces
+- New design: laser cut U-shaped rectangle, 10ga steel, 1/4" × 1" approx, slot cut for net retention
+- Standoff reduced to ~3/16" — dramatically reduces bending moment
+- Two welds along full bottom edge — maximum weld surface
+- Net knot self-retains in slot — no retainer clip needed for nylon nets
+- Chain nets: chain link hooks over top edge before welding
+- Prototype path: send DXF to existing laser vendor, tumble, weld to test ring
+- Same vendor as frames — no new relationships needed
+- Potential to bring eyelet production in-house vs. spring/die company
+
+**3D Printing Opportunities:**
+- Airless mini basketball in TPU — Wilson Airless Gen 1 is full-size precedent
+- Retainer clips for eyelet system
+- JustScore phone/tablet mount
+- Court line markers (snap-on floor markers)
+- Net production evaluated — small net (12") fits standard printer, large net (16") requires large format
+- Net cost analysis: import $0.50 vs domestic $10+ vs 3D print $1.50-3.00
+- Recommendation: continue importing standard nylon; chain net as domestic premium; 3D print as future option
+- 5,000+ nets/year requirement = ~20/working day; 2-3 printers could theoretically supply all
+
+**Shot Detection for JustScore:**
+- Goal: detect made shots automatically, auto-score, stop shot clock
+- Recommended: IR beam break + ESP32 + Bluetooth
+- IR emitter/receiver across rim: $3-5
+- ESP32 microcontroller: $5-8
+- 3D printed housing: $1-2
+- Total: ~$12-20 per hoop
+- Product: "JustScore Sensor Kit" — $29-49 retail
+- Enables Buzzer Beater contest with verifiable auto-scored results
+- Bluetooth pairs with JustScore on phone
+
+### Marketing — Key Items
+- Blog Posts 1, 2, 3 drafted — ready to publish
+- Marketing Plan document complete — timing adjusted to early April (team out, tax season)
+- AEO Audit complete + Addendum added
+- MailChimp + BigCommerce integration — priority when team available
+- Post-purchase email sequence — draft when team available
+- Before/after photo campaign — pending Justin sharing AI-enhanced photos
+- Cartoon image of Justin's boys — brand mascot candidate, "Dream Big. Play Hard." on shirt
+
+### Immediate Actions (Early April)
+- [ ] Scan Grand Rapids Press article (Dec 3 2011) at high resolution — URGENT
+- [ ] Family review of About Us Word doc — email thread active
+- [ ] Jeremy to review his section of About Us
+- [ ] Justin to confirm Ray Allen (not Allen Iverson) for Extreme Makeover episode
+- [ ] Justin to share AI-enhanced photos for marketing use
+- [ ] Update Rave Capture About Us text to match new rewrite
+- [ ] Await Rave Capture response on AI/crawler visibility
+- [ ] Deploy help.html and cheatsheet when Netlify bandwidth resets
+- [ ] Update hamburger menu Help link to new help.html URL (v4.13)
+- [ ] Laser cut eyelet prototype — send DXF to vendor
+- [ ] Remove "PWA Beta" watermark from BC product page hero image
