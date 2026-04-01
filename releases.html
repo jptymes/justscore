@@ -245,21 +245,54 @@ body {
 <!-- MAIN -->
 <main class="main">
 
+  <!-- v4.15 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag current">v4.15</span>
+      <span class="version-date">April 1, 2026</span>
+      <span class="version-title">Audio Extraction, Android Fixes & Version Notification</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Audio extracted from app</strong> — Buzzer, horse, doh, and applause sounds are now separate files. Reduces the main app file from 180KB to 39KB — a 78% reduction. Faster loads and better caching.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Android right edge clipping</strong> — Home − button was clipped on the right edge on some Android phones. Fixed.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Android ctrl bar clipping</strong> — Control bar buttons were occasionally clipped at the bottom on Android phones. Fixed.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Version notification</strong> — The ☰ menu now shows your current version (Ver: v4.15 ↗). When a new version is available it highlights amber and shows "See What's New 🆕". Tapping opens Release Notes and clears the notification.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>iOS sound enable note</strong> — Help page now includes a callout explaining the 🔊 Enable Sound menu item for iPhone and iPad users.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
   <!-- v4.14a -->
   <div class="version-block">
     <div class="version-header">
-      <span class="version-tag current">v4.14a</span>
+      <span class="version-tag">v4.14a</span>
       <span class="version-date">March 31, 2026</span>
       <span class="version-title">iOS Audio — Moved to Menu</span>
     </div>
     <div class="change-list">
       <div class="change-item">
         <span class="change-type fix">Fix</span>
-        <span class="change-text"><strong>Audio enable banner removed</strong> — The floating "Tap to Enable Sound" banner introduced in v4.14 was overlapping the control bar buttons. Removed entirely.</span>
+        <span class="change-text"><strong>Audio enable banner removed</strong> — The floating "Tap to Enable Sound" banner was overlapping the control bar buttons. Removed entirely.</span>
       </div>
       <div class="change-item">
         <span class="change-type new">New</span>
-        <span class="change-text"><strong>iOS Enable Sound menu item</strong> — On iOS devices, a "🔊 Enable Sound" item now appears at the top of the hamburger menu. Tap it once to enable audio. The item disappears after tapping. Android and desktop users are unaffected.</span>
+        <span class="change-text"><strong>iOS Enable Sound menu item</strong> — On iOS devices a "🔊 Enable Sound" item now appears at the top of the ☰ menu. Tap it once to enable audio. Disappears after tapping. Android and desktop unaffected.</span>
       </div>
     </div>
   </div>
@@ -280,7 +313,7 @@ body {
       </div>
       <div class="change-item">
         <span class="change-type new">New</span>
-        <span class="change-text"><strong>iOS audio unlock</strong> — iOS Safari requires a user gesture before audio can play. Added unlock mechanism so the game clock horn and shot clock buzzer fire correctly on iOS devices.</span>
+        <span class="change-text"><strong>iOS audio unlock</strong> — iOS Safari requires a user gesture before audio can play. Added unlock mechanism so the game clock horn and shot clock buzzer fire correctly on iOS.</span>
       </div>
     </div>
   </div>

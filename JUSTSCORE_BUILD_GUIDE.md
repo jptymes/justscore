@@ -3,9 +3,9 @@
 **Product:** JustScore Basketball Scoreboard  
 **Company:** JustInTymeSports, LLC  
 **Live URL:** https://justscore.justintymesports.net  
-**Hosting:** Netlify (drag and drop deployment)  
-**Last updated:** March 31, 2026  
-**Current version:** v4.14b  
+**Hosting:** Netlify (GitHub → auto-deploy)  
+**Last updated:** April 1, 2026  
+**Current version:** v4.15  
 
 ---
 
@@ -21,7 +21,7 @@ Drop this document into any new Claude session alongside CHANGELOG.md to restore
 
 ---
 
-## Deployment Package — 19 Files
+## Deployment Package — 25 Files
 
 ```
 index.html                  ← Main scoreboard app (PRIMARY — changes most often)
@@ -30,9 +30,15 @@ sw.js                       ← Service worker / offline cache
 favicon.ico                 ← Browser tab icon
 _redirects                  ← Netlify HTTP→HTTPS and old URL redirects
 CHANGELOG.md                ← Full project history and strategic context
+JUSTSCORE_BUILD_GUIDE.md    ← This file — build and deploy reference
 help.html                   ← Help page (justscore.justintymesports.net/help)
 releases.html               ← Release notes page (/releases.html)
 justscore-cheatsheet.html   ← Printable keyboard reference (/justscore-cheatsheet.html)
+justscore-qr-code.png       ← QR code used in cheatsheet footer
+buzzer.wav                  ← Buzzer sound (extracted from index.html in v4.15)
+horse.wav                   ← Horse neigh sound (HORSE game)
+doh.wav                     ← Bart Simpson doh sound (21 game)
+applause.wav                ← Applause sound (winner)
 icon-16.png                 ← Favicon (browser tab, small)
 icon-32.png                 ← Favicon (browser tab, standard)
 icon-48.png                 ← Favicon (Windows taskbar)
@@ -170,10 +176,12 @@ Full project history, strategic context, roadmap, and decisions. Always included
 Use this checklist every time a new version is built. Check off each item.
 
 ### Every Version
-- [ ] `index.html` — Update `Release Notes — vX.XX` in hamburger menu link
+- [ ] `index.html` — Update `const CURRENT_VERSION = 'vX.XX'` in JS
+- [ ] `index.html` — Verify version menu item label if needed (auto-updates from CURRENT_VERSION)
 - [ ] `sw.js` — Update `const CACHE = 'justscore-vX.XX'`
 - [ ] `releases.html` — Add new version block at the TOP, move `current` CSS class to new block
 - [ ] `CHANGELOG.md` — Add version entry, update `Current version:` line, update `Next:` line
+- [ ] `BC product page` — Update version number in About JustScore section (BigCommerce HTML editor)
 
 ### When Game Presets Change
 - [ ] `help.html` — Update preset specs in Game Presets section
@@ -207,13 +215,15 @@ Use this checklist every time a new version is built. Check off each item.
 
 | File | String | Current Value |
 |---|---|---|
-| `index.html` | Hamburger menu Release Notes link | `Release Notes — v4.14b` |
-| `sw.js` | Cache name | `justscore-v4.14a` |
-| `releases.html` | `version-tag current` block | `v4.14a` |
-| `justscore-cheatsheet.html` | Header subtitle | `v4.12` ← stale, update next cheatsheet change |
-| `CHANGELOG.md` | `Current version:` | `v4.14b` |
+| `index.html` | `const CURRENT_VERSION` | `'v4.15'` |
+| `sw.js` | Cache name | `justscore-v4.15` |
+| `releases.html` | `version-tag current` block | `v4.15` |
+| `help.html` | Version badge | `Version 4.15` |
+| `justscore-cheatsheet.html` | Header subtitle | `v4.15` |
+| `CHANGELOG.md` | `Current version:` | `v4.15` |
+| `BC product page` | About JustScore section | Update manually in BigCommerce |
 
-> **Note on sw.js cache name:** The cache name does not need to increment on every patch version. It should increment when `index.html` changes in a meaningful way. Patch versions that only update supporting files (like v4.14b) can reuse the previous cache name if `index.html` is unchanged. However, if `index.html` changes at all, bump the cache name.
+> **Note on sw.js cache name:** Bump whenever `index.html` changes meaningfully. Patch versions that only update supporting files can reuse previous cache name if `index.html` is unchanged.
 
 ---
 
@@ -259,19 +269,20 @@ Examples: `v415.zip`, `v414b.zip`, `v414a.zip`
 The zip should contain all 19 files flat (no subfolder inside the zip).
 Use: `zip -j vXXX.zip foldername/*`
 
-### 6. Deploy to Netlify
-1. Go to [app.netlify.com](https://app.netlify.com)
-2. Open the JustScore site
-3. Drag and drop the zip file onto the deploy area
-4. Wait for deploy to complete (~30 seconds)
+### 6. Deploy via GitHub
+1. Upload changed files to GitHub repo (`jptymes/justscore`) via browser
+2. Commit message format: `vX.XX — brief description` (under 50 chars)
+3. Select **Commit directly to main**
+4. Netlify auto-deploys in ~30 seconds — zero credits consumed
 5. Verify live URL: https://justscore.justintymesports.net
 
 ### 7. Verify Deployment
 - [ ] Open scoreboard — confirm it loads
-- [ ] Open hamburger menu — confirm Release Notes shows correct version
-- [ ] Click Release Notes link — confirm new version entry is at top
+- [ ] Open hamburger menu — confirm version shows correctly (normal or new-version state)
+- [ ] Click version link — confirm releases.html opens with v4.15 at top
 - [ ] On Android — confirm PWA prompts service worker update (or reinstall)
 - [ ] Check browser console for 404 errors
+- [ ] Confirm audio plays (start clock, let it run to zero)
 
 ---
 
@@ -319,13 +330,12 @@ justscore-cheatsheet.html
 
 | Item | File | Priority |
 |---|---|---|
-| `justscore-cheatsheet.html` version string shows `v4.12` | `justscore-cheatsheet.html` | Low — fix at next cheatsheet content update |
-| `justscore-qr-code.png` not in deployment package | `justscore-cheatsheet.html` | Medium — add when QR code is finalized |
-| `icon-16/32/48.png` not in `sw.js` ASSETS cache list | `sw.js` | Low — add at next sw.js update |
-| Audio base64 embedded in `index.html` (~130KB of 180KB total) | `index.html` | Medium — extract to separate files before MailChimp launch to reduce Netlify bandwidth |
-| Android right edge clipping (Home − button) | `index.html` | v4.15 |
-| Android ctrl bar bottom clipping | `index.html` | v4.15 |
+| Game clock adjustment feature | `index.html` | v4.16 — pending team feedback |
+| Remote control / display sync | `index.html` + new backend | v4.16 |
 | iOS first test not yet completed | — | Before MailChimp launch |
+| MailChimp campaign not yet launched | — | Team availability |
+| BC product page version — update to v4.15 | BigCommerce | Do manually now |
+| `icon-16/32/48.png` not in `sw.js` ASSETS | `sw.js` | Low — add at next sw.js update |
 
 ---
 
