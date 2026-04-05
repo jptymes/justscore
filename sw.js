@@ -1,9 +1,10 @@
-const CACHE = 'justscore-v4.15';
+const CACHE = 'justscore-v4.16';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/sw.js', '/favicon.ico',
   '/icon-72.png', '/icon-96.png', '/icon-120.png', '/icon-152.png',
   '/icon-180.png', '/icon-192.png', '/icon-512.png',
-  '/buzzer.wav', '/horse.wav', '/doh.wav', '/applause.wav'
+  '/buzzer.wav', '/horse.wav', '/doh.wav', '/applause.wav',
+  '/robots.txt', '/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

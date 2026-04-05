@@ -102,16 +102,16 @@ html, body {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(11px, 1.8vw, 16px);
   letter-spacing: 3px;
-  color: #00e676;
+  color: #fff;
   text-transform: uppercase;
 }
-#splash-tag {
+#splash-copy {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(9px, 1.4vw, 13px);
-  letter-spacing: 2px;
-  color: #555;
+  font-size: clamp(8px, 1.2vw, 11px);
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.6);
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* ═══════════════════════════════════════
@@ -371,6 +371,7 @@ html, body {
   gap: 10px;
 }
 #brand-name{font-size:clamp(9px,1.5vw,13px);letter-spacing:2px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;font-weight:700;}
+#brand-name .tall{font-size:1.15em;}
 #brand-tag{font-size:clamp(7px,1.1vw,10px);letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;}
 .lbl {
   font-family:'Oswald',sans-serif;
@@ -454,9 +455,9 @@ html, body {
 <!-- SPLASH SCREEN -->
 <div id="splash">
   <img id="splash-icon" src="icon-192.png" alt="JustScore">
-  <div id="splash-title">JustScore</div>
-  <div id="splash-sub">by JustInTymeSports</div>
-  <div id="splash-tag">Dream Big. Play Hard.</div>
+  <div id="splash-title">JustScore™</div>
+  <div id="splash-sub">Dream Big. Play Hard.™</div>
+  <div id="splash-copy">© 1996–2026 JUSTINTYMESPORTS®, LLC</div>
 </div>
 
 <!-- MAIN APP -->
@@ -596,8 +597,8 @@ html, body {
 
     <!-- ROW 10: Footer -->
     <div id="footer-strip">
-      <div id="brand-tag">Dream Big. Play Hard.</div>
-      <div id="brand-name">JustInTymeSports</div>
+      <div id="brand-tag">Dream Big. Play Hard.™</div>
+      <div id="brand-name"><span class="tall">J</span>UST<span class="tall">I</span>N<span class="tall">T</span>YME<span class="tall">S</span>PORTS®</div>
     </div>
 
   </div><!-- /scoreboard -->
@@ -815,7 +816,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.15';
+const CURRENT_VERSION = 'v4.16';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -1083,14 +1084,18 @@ if (window.ResizeObserver) {
   }, 50);
 }
 
-// Splash screen
-window.addEventListener('load', () => {
+// Splash screen — 3 second minimum + app ready (whichever is longer)
+const _splashStart = Date.now();
+function _dismissSplash() {
+  const elapsed = Date.now() - _splashStart;
+  const remaining = Math.max(0, 3000 - elapsed);
   setTimeout(() => {
     const splash = document.getElementById('splash');
     splash.classList.add('hide');
     setTimeout(() => splash.style.display = 'none', 650);
-  }, 2000);
-});
+  }, remaining);
+}
+window.addEventListener('load', _dismissSplash);
 </script>
 </body>
 </html>

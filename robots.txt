@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://justscore.justintymesports.net/llms.txt
