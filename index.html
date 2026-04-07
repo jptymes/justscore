@@ -195,8 +195,8 @@ html, body {
 #flyout.open{transform:translateX(0);}
 #flyout-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:180;display:none;}
 #flyout-overlay.open{display:block;}
-.flyout-section{padding:6px 0;border-bottom:1px solid #151515;}
-.flyout-section-label{font-size:10px;letter-spacing:3px;color:#fff;font-weight:700;text-transform:uppercase;padding:6px 20px 8px;}
+.flyout-section{padding:6px 0;}
+.flyout-divider{height:2px;background:#fff;margin:4px 0;}
 .flyout-item{
   display:flex;align-items:center;justify-content:space-between;
   padding:11px 20px;font-size:15px;letter-spacing:2px;color:#fff;
@@ -327,6 +327,11 @@ html, body {
 .clock-ctrl-btns {
   display: flex; gap: clamp(3px, 0.7vw, 7px);
 }
+.clock-adj-btns {
+  display: flex; gap: clamp(3px, 0.7vw, 7px);
+  margin-top: 3px;
+}
+.clock-adj-btns.hidden { visibility: hidden; }
 
 /* ── ROW 4: Divider ── */
 #divider {
@@ -372,6 +377,7 @@ html, body {
 }
 #brand-name{font-size:clamp(9px,1.5vw,13px);letter-spacing:2px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;font-weight:700;}
 #brand-name .tall{font-size:1.15em;}
+sup{font-size:0.65em;vertical-align:super;line-height:0;}
 #brand-tag{font-size:clamp(7px,1.1vw,10px);letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;}
 .lbl {
   font-family:'Oswald',sans-serif;
@@ -419,6 +425,8 @@ html, body {
 .btn-amber:hover{background:#110a00;border-color:#ffb300;}
 .btn-blue{color:#40c4ff;border-color:#001a2a;}
 .btn-blue:hover{background:#000d15;border-color:#40c4ff;}
+.btn-dim{color:#888;border-color:#222;}
+.btn-dim:hover{background:#111;border-color:#555;color:#aaa;}
 
 .ctrl-btn {
   font-family:'Oswald',sans-serif;
@@ -457,7 +465,7 @@ html, body {
   <img id="splash-icon" src="icon-192.png" alt="JustScore">
   <div id="splash-title">JustScore™</div>
   <div id="splash-sub">Dream Big. Play Hard.™</div>
-  <div id="splash-copy">© 1996–2026 JUSTINTYMESPORTS®, LLC</div>
+  <div id="splash-copy">© 1996–2026 JUSTINTYMESPORTS<sup>®</sup>, LLC</div>
 </div>
 
 <!-- MAIN APP -->
@@ -472,19 +480,22 @@ html, body {
     <div id="sound-unlock-section" class="flyout-section" style="display:none;">
       <button class="flyout-item link-item" id="sound-unlock-btn" onclick="_unlockAudioFromMenu()">🔊 Enable Sound</button>
     </div>
+    <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <div class="flyout-section-label">Game</div>
-      <button class="flyout-item" data-game="college" onclick="selectGame('college');closeMenu()">College <span class="check" id="chk-college"></span></button>
       <button class="flyout-item active" data-game="minipro" onclick="selectGame('minipro');closeMenu()">Mini-Pro <span class="check" id="chk-minipro">✓</span></button>
+      <button class="flyout-item" data-game="college" onclick="selectGame('college');closeMenu()">College <span class="check" id="chk-college"></span></button>
       <button class="flyout-item" data-game="pro" onclick="selectGame('pro');closeMenu()">Pro <span class="check" id="chk-pro"></span></button>
       <button class="flyout-item" data-game="custom" onclick="selectGame('custom');closeMenu()">Custom <span class="check" id="chk-custom"></span></button>
     </div>
+    <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <div class="flyout-section-label">Links</div>
-      <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
       <button class="flyout-item link-item" onclick="window.open('https://justscore.justintymesports.net/help','_blank');closeMenu()">Help <span class="ext">↗</span></button>
       <button class="flyout-item link-item" onclick="window.open('https://justscore.justintymesports.net/justscore-cheatsheet.html','_blank');closeMenu()">Keyboard Cheat Sheet <span class="ext">↗</span></button>
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.15 ↗</button>
+    </div>
+    <div class="flyout-divider"></div>
+    <div class="flyout-section">
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.16 ↗</button>
+      <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
 
@@ -507,25 +518,29 @@ html, body {
       <div class="led-display" id="homeScoreLed"></div>
     </div>
 
-    <!-- ROW 3: Top buttons + possession + clock controls -->
+    <!-- ROW 3: Score buttons (with possession arrows) + clock controls + adjust -->
     <div class="score-btns-row" id="guestBtnsRow">
       <button class="btn btn-green" onclick="addScore('guest',2)">+2</button>
       <button class="btn btn-green" onclick="addScore('guest',3)">+3</button>
       <button class="btn btn-green" onclick="addScore('guest',1)">+1</button>
       <button class="btn btn-red"   onclick="addScore('guest',-1)">−</button>
+      <span class="poss-arrow" id="guestPoss" onclick="setPossession('guest')">◀</span>
     </div>
     <div id="clockBtnsRow">
-      <div class="poss-row">
-        <span class="poss-arrow" id="guestPoss" onclick="setPossession('guest')">◀</span>
-        <span class="poss-arrow" id="homePoss"  onclick="setPossession('home')">▶</span>
-      </div>
       <div class="clock-ctrl-btns">
         <button class="btn btn-green" onclick="startGameClock()" title="F5">▶</button>
         <button class="btn btn-red"   onclick="stopGameClock()"  title="F6">■</button>
         <button class="btn btn-amber" onclick="resetGameClock()" title="Ctrl+T">↺</button>
       </div>
+      <div class="clock-adj-btns hidden" id="clockAdjBtns">
+        <button class="btn btn-dim" onclick="adjGameClock(-1)">−1s</button>
+        <button class="btn btn-dim" onclick="adjGameClock(-15)">−15s</button>
+        <button class="btn btn-dim" onclick="adjGameClock(15)">+15s</button>
+        <button class="btn btn-dim" onclick="adjGameClock(1)">+1s</button>
+      </div>
     </div>
     <div class="score-btns-row" id="homeBtnsRow">
+      <span class="poss-arrow" id="homePoss" onclick="setPossession('home')">▶</span>
       <button class="btn btn-green" onclick="addScore('home',2)">+2</button>
       <button class="btn btn-green" onclick="addScore('home',3)">+3</button>
       <button class="btn btn-green" onclick="addScore('home',1)">+1</button>
@@ -598,7 +613,7 @@ html, body {
     <!-- ROW 10: Footer -->
     <div id="footer-strip">
       <div id="brand-tag">Dream Big. Play Hard.™</div>
-      <div id="brand-name"><span class="tall">J</span>UST<span class="tall">I</span>N<span class="tall">T</span>YME<span class="tall">S</span>PORTS®</div>
+      <div id="brand-name"><span class="tall">J</span>UST<span class="tall">I</span>N<span class="tall">T</span>YME<span class="tall">S</span>PORTS<sup>®</sup></div>
     </div>
 
   </div><!-- /scoreboard -->
@@ -816,7 +831,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.16';
+const CURRENT_VERSION = 'v4.17';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -928,17 +943,26 @@ function selectGame(key) {
 // ═══════════════════════════════════════
 //  CLOCKS
 // ═══════════════════════════════════════
+function _setClockAdjVis(running){
+  const el=document.getElementById('clockAdjBtns');
+  if(el) el.classList.toggle('hidden',running);
+}
 function startGameClock(){
   if(S.gameRunning||S.gameSecs<=0)return;
-  S.gameRunning=true; updateGameClock();
+  S.gameRunning=true; _setClockAdjVis(true); updateGameClock();
   gameTimer=setInterval(()=>{
     if(S.gameSecs>0){S.gameSecs--;updateGameClock();}
     else{stopGameClock();horn();}
   },1000);
 }
-function stopGameClock(){S.gameRunning=false;clearInterval(gameTimer);updateGameClock();}
+function stopGameClock(){S.gameRunning=false;clearInterval(gameTimer);_setClockAdjVis(false);updateGameClock();}
 function resetGameClock(){stopGameClock();S.gameSecs=S.preset.gameSecs;updateGameClock();}
 function toggleGameClock(){S.gameRunning?stopGameClock():startGameClock();}
+function adjGameClock(secs){
+  if(S.gameRunning)return;
+  S.gameSecs=Math.max(0,S.gameSecs+secs);
+  updateGameClock();
+}
 function startShotClock(){
   if(S.shotRunning||S.shotSecs<=0)return; S.shotRunning=true;
   shotTimer=setInterval(()=>{

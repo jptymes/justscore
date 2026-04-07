@@ -223,6 +223,7 @@ body {
   .version-header { flex-wrap: wrap; gap: 8px; }
   .main { padding: 20px 14px 60px; }
 }
+sup { font-size: 0.65em; vertical-align: super; line-height: 0; }
 </style>
 </head>
 <body>
@@ -239,16 +240,45 @@ body {
 <!-- HERO -->
 <div class="hero">
   <h1>Release Notes</h1>
-  <p>JustScore by JustInTymeSports &nbsp;•&nbsp; Version History</p>
+  <p>JustScore™ by JustInTymeSports<sup>®</sup> &nbsp;•&nbsp; Version History</p>
 </div>
 
 <!-- MAIN -->
 <main class="main">
 
+  <!-- v4.17 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag current">v4.17</span>
+      <span class="version-date">April 6, 2026</span>
+      <span class="version-title">Menu Redesign, Clock Adjust & IP Cleanup</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Menu redesigned</strong> — Section headings replaced with clean divider lines. Mini-Pro moves to top of game list. Shop Our Hoops moves to bottom. Cleaner, more minimal layout.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>Possession arrows moved</strong> — Arrows now sit on their team's score row (Guest ◀ on right, Home ▶ on left), pointing inward toward the clock. Frees up the center clock row.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Game clock adjustment</strong> — Four buttons appear below the clock controls when the clock is stopped: −1s, −15s, +15s, +1s. Hidden automatically when the clock is running. Useful for mid-game corrections.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type design">Design</span>
+        <span class="change-text"><strong>® superscript</strong> — JUSTINTYMESPORTS® and JustInTymeSports® now render ® as a proper superscript throughout the app and support pages.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
   <!-- v4.16 -->
   <div class="version-block">
     <div class="version-header">
-      <span class="version-tag current">v4.16</span>
+      <span class="version-tag">v4.16</span>
       <span class="version-date">April 5, 2026</span>
       <span class="version-title">Copyright, IP Symbols & Bug Fixes</span>
     </div>
@@ -259,19 +289,73 @@ body {
       </div>
       <div class="change-item">
         <span class="change-type new">New</span>
-        <span class="change-text"><strong>IP symbols throughout</strong> — JustScore™, JUSTINTYMESPORTS®, and Dream Big. Play Hard.™ now carry correct trademark symbols on first mention per page. Scoreboard footer shows JUSTINTYMESPORTS® with the J, I, T, S letters slightly larger — a brand treatment that encodes the family name Tymes.</span>
+        <span class="change-text"><strong>IP symbols throughout</strong> — JustScore™, JUSTINTYMESPORTS®, and Dream Big. Play Hard.™ now carry correct trademark symbols on first mention per page.</span>
       </div>
       <div class="change-item">
         <span class="change-type fix">Fix</span>
-        <span class="change-text"><strong>robots.txt added</strong> — Search engines and AI crawlers were getting 404 on robots.txt. File now exists and allows all traffic. References llms.txt for AI content discovery.</span>
+        <span class="change-text"><strong>robots.txt added</strong> — Search engines and AI crawlers were getting 404 on robots.txt. File now exists and allows all traffic.</span>
       </div>
       <div class="change-item">
         <span class="change-type fix">Fix</span>
-        <span class="change-text"><strong>Apple touch icons added</strong> — iOS Safari was getting 404 on apple-touch-icon.png and apple-touch-icon-precomposed.png when bookmarking. Both files now present.</span>
+        <span class="change-text"><strong>Apple touch icons added</strong> — iOS Safari was getting 404 on apple-touch-icon.png when bookmarking. Both icon files now present.</span>
       </div>
       <div class="change-item">
         <span class="change-type design">Design</span>
-        <span class="change-text"><strong>Splash screen updated</strong> — Removed "by JustInTymeSports" line. Dream Big. Play Hard.™ is now full white. Copyright line in dim white. Cleaner, more intentional hierarchy.</span>
+        <span class="change-text"><strong>Splash screen updated</strong> — Removed "by JustInTymeSports" line. Dream Big. Play Hard.™ is now full white. Copyright line in dim white. Cleaner hierarchy.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.15 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.15</span>
+      <span class="version-date">April 1, 2026</span>
+      <span class="version-title">Audio Extraction & Android Fixes</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Audio extracted</strong> — buzzer.wav, horse.wav, doh.wav, applause.wav are now separate files. index.html drops from 180KB to 39KB — 78% reduction. Faster first load.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Android right edge clipping fixed</strong> — Home − button was clipped on the right edge on Android phones. Fixed with matching right padding.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Android ctrl bar clipping fixed</strong> — Bottom control bar buttons clipped at bottom on Android. Fixed with bottom padding.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>Version notification in menu</strong> — Menu now shows amber "See What's New 🆕" when a new version is detected. Tapping opens release notes.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type new">New</span>
+        <span class="change-text"><strong>iOS sound note in Help</strong> — iPhone and iPad install section now includes an amber callout explaining the 🔊 Enable Sound menu item.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- v4.14 -->
+  <div class="version-block">
+    <div class="version-header">
+      <span class="version-tag">v4.14</span>
+      <span class="version-date">March 2026</span>
+      <span class="version-title">iOS Audio & Shot Clock Fixes</span>
+    </div>
+    <div class="change-list">
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>iOS audio unlock</strong> — Audio on iPhone and iPad now unlocks correctly via the 🔊 Enable Sound menu item. Buzzer and game sounds work on iOS.</span>
+      </div>
+      <div class="change-item">
+        <span class="change-type fix">Fix</span>
+        <span class="change-text"><strong>Shot clock fixes</strong> — Shot clock reset and start behavior corrected. Reset and Start button now works correctly on possession change.</span>
       </div>
     </div>
   </div>
@@ -488,7 +572,7 @@ body {
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  <p>JustScore™ is free &nbsp;•&nbsp; No download &nbsp;•&nbsp; Any device &nbsp;•&nbsp; © 1996–2026 JustInTymeSports®, LLC</p>
+  <p>JustScore™ is free &nbsp;•&nbsp; No download &nbsp;•&nbsp; Any device &nbsp;•&nbsp; © 1996–2026 JustInTymeSports<sup>®</sup>, LLC</p>
 </footer>
 
 </body>
