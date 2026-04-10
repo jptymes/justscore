@@ -564,7 +564,7 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19 ↗</button>
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19a ↗</button>
       <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
@@ -923,7 +923,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.19';
+const CURRENT_VERSION = 'v4.19a';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -1330,7 +1330,20 @@ window.addEventListener('resize',()=>{
 // ═══════════════════════════════════════
 //  SERVICE WORKER
 // ═══════════════════════════════════════
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  let refreshing = false;
+  if(navigator.serviceWorker.controller){
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(!refreshing){
+        refreshing = true;
+        if(confirm('A new version of JustScore is available.\n\nUpdate now? The app will reload.')){
+          location.reload();
+        }
+      }
+    });
+  }
+}
 
 // ═══════════════════════════════════════
 //  INIT — ResizeObserver fires when each
