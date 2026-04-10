@@ -449,6 +449,71 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
 
 @keyframes hornFlash{0%,100%{opacity:1}50%{opacity:0.08}}
 .horn-active .led-display{animation:hornFlash 0.25s ease-in-out 8;}
+
+/* ═══════════════════════════════════════
+   SYNC MODE — disabled controls
+═══════════════════════════════════════ */
+#scoreboard.sync-active button{opacity:0.2;pointer-events:none;}
+#scoreboard.sync-active .poss-arrow{opacity:0.2;pointer-events:none;}
+#scoreboard.sync-active .bonus-light{pointer-events:none;}
+#scoreboard.sync-active .pdot{pointer-events:none;}
+#scoreboard.sync-active [contenteditable]{pointer-events:none;}
+/* ■ Stop buttons remain active during sync */
+#scoreboard.sync-active .clock-ctrl-btns .btn-red{opacity:1;pointer-events:auto;}
+#scoreboard.sync-active .ctrl-stop{opacity:1;pointer-events:auto;}
+
+/* ═══════════════════════════════════════
+   DISPLAY MODE — hide controls
+═══════════════════════════════════════ */
+#app.display-mode #hamburger{display:none;}
+#app.display-mode .score-btns-row{visibility:hidden;}
+#app.display-mode #clockBtnsRow{visibility:hidden;}
+#app.display-mode #guestFoulBtns{visibility:hidden;}
+#app.display-mode #homeFoulBtns{visibility:hidden;}
+#app.display-mode #shotBtns{visibility:hidden;}
+#app.display-mode #ctrl-bar{visibility:hidden;}
+#app.display-mode .bonus-light{pointer-events:none;}
+#app.display-mode .pdot{pointer-events:none;}
+#app.display-mode [contenteditable]{pointer-events:none;}
+
+/* ═══════════════════════════════════════
+   SYNC JOIN OVERLAY (display device)
+═══════════════════════════════════════ */
+#sync-join-overlay{
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.96); z-index:500;
+  flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(10px,2vw,20px);
+}
+.sync-overlay-title{
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(12px,2.2vw,20px);
+  letter-spacing:4px; color:#aaa; text-transform:uppercase;
+}
+#sync-code-input-display{
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(30px,6vw,58px);
+  letter-spacing:14px; color:#ffb300;
+  text-shadow:0 0 14px rgba(255,179,0,0.7);
+  min-width:220px; text-align:center;
+}
+.sync-numpad{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:clamp(6px,1.2vw,12px);
+}
+.sync-num-btn{
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(16px,2.8vw,26px);
+  padding:clamp(8px,1.5vw,16px) clamp(12px,2.2vw,24px);
+  border-radius:3px; border:1px solid #333;
+  background:#0a0a0a; color:#fff; cursor:pointer;
+  letter-spacing:2px; transition:all 0.15s;
+  min-width:clamp(44px,7vw,70px); text-align:center;
+}
+.sync-num-btn:hover{background:#1a1a1a;border-color:#555;}
+.sync-num-btn:active{transform:scale(0.93);}
+.sync-num-btn.back{color:#ff2244;border-color:#2a0008;}
+.sync-num-btn.cancel{color:#555;border-color:#222;}
 </style>
 </head>
 <body>
@@ -489,12 +554,17 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
+      <button class="flyout-item" id="sync-start-btn" onclick="startSession();closeMenu()">Sync: Start</button>
+      <button class="flyout-item" onclick="showJoinOverlay();closeMenu()">Sync: Join</button>
+    </div>
+    <div class="flyout-divider"></div>
+    <div class="flyout-section">
       <button class="flyout-item link-item" onclick="window.open('https://justscore.justintymesports.net/help','_blank');closeMenu()">Help <span class="ext">↗</span></button>
       <button class="flyout-item link-item" onclick="window.open('https://justscore.justintymesports.net/justscore-cheatsheet.html','_blank');closeMenu()">Keyboard Cheat Sheet <span class="ext">↗</span></button>
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.17 ↗</button>
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19 ↗</button>
       <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
@@ -617,6 +687,27 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
     </div>
 
   </div><!-- /scoreboard -->
+
+  <!-- SYNC JOIN OVERLAY — display device enters 4-digit code -->
+  <div id="sync-join-overlay">
+    <div class="sync-overlay-title">Enter Game Code</div>
+    <div id="sync-code-input-display">_ _ _ _</div>
+    <div class="sync-numpad">
+      <button class="sync-num-btn" onclick="syncNumPress('1')">1</button>
+      <button class="sync-num-btn" onclick="syncNumPress('2')">2</button>
+      <button class="sync-num-btn" onclick="syncNumPress('3')">3</button>
+      <button class="sync-num-btn" onclick="syncNumPress('4')">4</button>
+      <button class="sync-num-btn" onclick="syncNumPress('5')">5</button>
+      <button class="sync-num-btn" onclick="syncNumPress('6')">6</button>
+      <button class="sync-num-btn" onclick="syncNumPress('7')">7</button>
+      <button class="sync-num-btn" onclick="syncNumPress('8')">8</button>
+      <button class="sync-num-btn" onclick="syncNumPress('9')">9</button>
+      <button class="sync-num-btn back" onclick="syncBackspace()">⌫</button>
+      <button class="sync-num-btn" onclick="syncNumPress('0')">0</button>
+      <button class="sync-num-btn cancel" onclick="hideJoinOverlay()">Cancel</button>
+    </div>
+  </div>
+
 </div><!-- /app -->
 
 <script>
@@ -785,6 +876,7 @@ let S = {
   gameRunning:false, shotRunning:false,
 };
 let gameTimer=null, shotTimer=null;
+let mode = 'idle'; // 'idle' | 'sync' | 'display'
 const SFX = {};
 
 // ═══════════════════════════════════════
@@ -831,7 +923,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.17';
+const CURRENT_VERSION = 'v4.19';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -864,12 +956,14 @@ function playSound(name) {
 function pad2(n){ return String(Math.max(0,n)).padStart(2,'0'); }
 
 function updateGameClock() {
+  if (mode === 'sync') return; // sync mode uses clock cell for code display
   const s = Math.max(0,S.gameSecs);
   const cell = document.getElementById('gclockCell');
   renderLedInCell(cell, document.getElementById('gameClockLed'),
     pad2(Math.floor(s/60))+':'+pad2(s%60), 'red', SPECS.large, !S.gameRunning);
 }
 function updateShotClock() {
+  if (mode === 'sync') return; // sync mode uses shot cell for countdown display
   const s = Math.max(0,S.shotSecs);
   const cell = document.getElementById('shotCell');
   renderLedInCell(cell, document.getElementById('shotClockLed'),
@@ -951,27 +1045,33 @@ function startGameClock(){
   if(S.gameRunning||S.gameSecs<=0)return;
   S.gameRunning=true; _setClockAdjVis(true); updateGameClock();
   gameTimer=setInterval(()=>{
-    if(S.gameSecs>0){S.gameSecs--;updateGameClock();}
+    if(S.gameSecs>0){S.gameSecs--;updateGameClock();broadcastState();}
     else{stopGameClock();horn();}
   },1000);
+  broadcastState();
 }
-function stopGameClock(){S.gameRunning=false;clearInterval(gameTimer);_setClockAdjVis(false);updateGameClock();}
-function resetGameClock(){stopGameClock();S.gameSecs=S.preset.gameSecs;updateGameClock();}
+function stopGameClock(){
+  if(mode==='sync'){lockJoinWindow();return;}
+  S.gameRunning=false;clearInterval(gameTimer);_setClockAdjVis(false);updateGameClock();
+  broadcastState();
+}
+function resetGameClock(){stopGameClock();S.gameSecs=S.preset.gameSecs;updateGameClock();broadcastState();}
 function toggleGameClock(){S.gameRunning?stopGameClock():startGameClock();}
 function adjGameClock(secs){
   if(S.gameRunning)return;
   S.gameSecs=Math.max(0,S.gameSecs+secs);
-  updateGameClock();
+  updateGameClock(); broadcastState();
 }
 function startShotClock(){
   if(S.shotRunning||S.shotSecs<=0)return; S.shotRunning=true;
   shotTimer=setInterval(()=>{
-    if(S.shotSecs>0){S.shotSecs--;updateShotClock();}
+    if(S.shotSecs>0){S.shotSecs--;updateShotClock();broadcastState();}
     else{stopShotClock();playSound('buzzer');}
   },1000);
+  broadcastState();
 }
-function stopShotClock(){S.shotRunning=false;clearInterval(shotTimer);}
-function resetShotClock(){stopShotClock();S.shotSecs=S.preset.shotSecs;updateShotClock();}
+function stopShotClock(){S.shotRunning=false;clearInterval(shotTimer);updateShotClock();broadcastState();}
+function resetShotClock(){stopShotClock();S.shotSecs=S.preset.shotSecs;updateShotClock();broadcastState();}
 function resetStartShotClock(){resetShotClock();startShotClock();}
 function toggleShotClock(){S.shotRunning?stopShotClock():startShotClock();}
 function horn(){
@@ -986,26 +1086,27 @@ function horn(){
 function addScore(team,pts){
   if(team==='home')S.homeScore=Math.max(0,S.homeScore+pts);
   else S.guestScore=Math.max(0,S.guestScore+pts);
-  updateScore(team);
+  updateScore(team); broadcastState();
 }
-function setPossession(team){S.possession=team;updatePossession();}
+function setPossession(team){S.possession=team;updatePossession();broadcastState();}
 function addFoul(team,n){
   if(team==='home')S.homeFouls=Math.max(0,Math.min(9,S.homeFouls+n));
   else S.guestFouls=Math.max(0,Math.min(9,S.guestFouls+n));
-  updateFouls(team);
+  updateFouls(team); broadcastState();
 }
 function toggleBonus(team){
   if(team==='home')S.homeBonusManual=!S.homeBonusManual;
   else S.guestBonusManual=!S.guestBonusManual;
-  updateFouls(team);
+  updateFouls(team); broadcastState();
 }
-function setPeriod(p){S.period=p;updatePeriodDots();}
+function setPeriod(p){S.period=p;updatePeriodDots();broadcastState();}
 function nextPeriod(){
   if(S.period<S.preset.periods){
     S.period++;
     S.homeFouls=S.guestFouls=0; S.homeBonusManual=S.guestBonusManual=false;
     updateFouls('home'); updateFouls('guest');
     resetGameClock(); resetShotClock(); updatePeriodDots();
+    broadcastState();
   }
 }
 function fullReset(){
@@ -1013,7 +1114,175 @@ function fullReset(){
   S.homeScore=S.guestScore=0; S.homeFouls=S.guestFouls=0;
   S.homeBonusManual=S.guestBonusManual=false;
   S.gameSecs=S.preset.gameSecs; S.shotSecs=S.preset.shotSecs;
-  S.possession='home'; S.period=1; renderAll();
+  S.possession='home'; S.period=1; renderAll(); broadcastState();
+}
+
+// ═══════════════════════════════════════
+//  SYNC — Remote Sync (v4.19)
+//  Controller: POST /create → get code →
+//    WebSocket as controller → enterSyncMode
+//  Display: showJoinOverlay → enter code →
+//    WebSocket as display → enterDisplayMode
+// ═══════════════════════════════════════
+const WORKER_URL = 'https://justscore-worker.john-889.workers.dev';
+let syncWs = null;
+let syncCountdownTimer = null;
+let syncSecsLeft = 60;
+let syncCodeInput = '';
+
+// ── Render 4-digit code in game clock cell (colon hidden) ───────────────────
+function _showCodeOnClock(code) {
+  const cell = document.getElementById('gclockCell');
+  const led  = document.getElementById('gameClockLed');
+  renderLedInCell(cell, led, code, 'amber', SPECS.large, true);
+}
+
+// ── Render countdown seconds in shot clock cell ──────────────────────────────
+function _showCountdownOnShot(secs) {
+  const cell = document.getElementById('shotCell');
+  const led  = document.getElementById('shotClockLed');
+  renderLedInCell(cell, led, pad2(secs), secs<=10?'amber':'red', SPECS.large, false);
+}
+
+// ── Broadcast current game state to all displays ────────────────────────────
+function broadcastState() {
+  if (!syncWs || syncWs.readyState !== WebSocket.OPEN || mode==='display') return;
+  syncWs.send(JSON.stringify({ type:'state', state:{
+    homeScore:S.homeScore, guestScore:S.guestScore,
+    homeFouls:S.homeFouls, guestFouls:S.guestFouls,
+    homeBonusManual:S.homeBonusManual, guestBonusManual:S.guestBonusManual,
+    possession:S.possession, period:S.period,
+    gameSecs:S.gameSecs, shotSecs:S.shotSecs,
+    gameRunning:S.gameRunning, shotRunning:S.shotRunning,
+    preset:S.preset, game:S.game,
+  }}));
+}
+
+// ── Apply state received from controller (display side) ─────────────────────
+function applyRemoteState(remoteS) {
+  Object.assign(S, remoteS);
+  renderAll();
+}
+
+// ── Enter sync mode — controller side ───────────────────────────────────────
+function enterSyncMode(code) {
+  syncSecsLeft = 60;
+  document.getElementById('scoreboard').classList.add('sync-active');
+  _showCodeOnClock(code);
+  _showCountdownOnShot(syncSecsLeft);
+  syncCountdownTimer = setInterval(() => {
+    syncSecsLeft--;
+    _showCountdownOnShot(syncSecsLeft);
+    if (syncSecsLeft <= 0) exitSyncMode();
+  }, 1000);
+  const btn = document.getElementById('sync-start-btn');
+  if (btn) btn.textContent = 'Sync: Stop';
+}
+
+// ── Exit sync mode — return to idle ─────────────────────────────────────────
+function exitSyncMode() {
+  mode = 'idle';
+  clearInterval(syncCountdownTimer); syncCountdownTimer = null;
+  document.getElementById('scoreboard').classList.remove('sync-active');
+  updateGameClock(); updateShotClock();
+  const btn = document.getElementById('sync-start-btn');
+  if (btn) btn.textContent = 'Sync: Start';
+}
+
+// ── Lock join window early (■ Stop pressed during sync) ─────────────────────
+function lockJoinWindow() {
+  if (syncWs && syncWs.readyState === WebSocket.OPEN) {
+    syncWs.send(JSON.stringify({ type:'lock' }));
+  }
+  exitSyncMode();
+}
+
+// ── Controller: POST /create then connect WebSocket ─────────────────────────
+async function startSession() {
+  // If already in sync, treat as cancel
+  if (mode === 'sync') { lockJoinWindow(); return; }
+  try {
+    const res = await fetch(WORKER_URL + '/create', { method:'POST' });
+    if (!res.ok) throw new Error('create failed');
+    const { code } = await res.json();
+    const wsUrl = WORKER_URL.replace('https://','wss://') + '/join/' + code + '?role=controller';
+    syncWs = new WebSocket(wsUrl);
+    syncWs.addEventListener('open', () => {
+      // Stop clocks while mode is still idle so stopGameClock works normally
+      stopGameClock(); stopShotClock();
+      mode = 'sync';
+      enterSyncMode(code);
+    });
+    syncWs.addEventListener('message', e => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.type === 'join_closed') exitSyncMode();
+      } catch {}
+    });
+    syncWs.addEventListener('close', () => { if (mode==='sync') exitSyncMode(); });
+    syncWs.addEventListener('error', () => { if (mode==='sync') exitSyncMode(); });
+  } catch(err) {
+    console.error('Sync start error:', err);
+  }
+}
+
+// ── Display: show numeric code-entry overlay ─────────────────────────────────
+function showJoinOverlay() {
+  syncCodeInput = '';
+  _renderCodeInput();
+  document.getElementById('sync-join-overlay').style.display = 'flex';
+}
+function hideJoinOverlay() {
+  document.getElementById('sync-join-overlay').style.display = 'none';
+}
+function _renderCodeInput() {
+  const el = document.getElementById('sync-code-input-display');
+  if (!el) return;
+  el.textContent = syncCodeInput.padEnd(4,'_').split('').join(' ');
+}
+function syncNumPress(digit) {
+  if (syncCodeInput.length >= 4) return;
+  syncCodeInput += digit;
+  _renderCodeInput();
+  if (syncCodeInput.length === 4) joinSession(syncCodeInput);
+}
+function syncBackspace() {
+  syncCodeInput = syncCodeInput.slice(0,-1);
+  _renderCodeInput();
+}
+
+// ── Display: connect WebSocket with entered code ─────────────────────────────
+async function joinSession(code) {
+  hideJoinOverlay();
+  try {
+    const wsUrl = WORKER_URL.replace('https://','wss://') + '/join/' + code + '?role=display';
+    syncWs = new WebSocket(wsUrl);
+    syncWs.addEventListener('open', () => { enterDisplayMode(); });
+    syncWs.addEventListener('message', e => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.type === 'state') applyRemoteState(data.state);
+      } catch {}
+    });
+    syncWs.addEventListener('close', () => { exitDisplayMode(); });
+    syncWs.addEventListener('error', () => { exitDisplayMode(); });
+  } catch(err) {
+    console.error('Join error:', err);
+    showJoinOverlay();
+  }
+}
+
+// ── Enter display mode (scoreboard only) ─────────────────────────────────────
+function enterDisplayMode() {
+  mode = 'display';
+  document.getElementById('app').classList.add('display-mode');
+}
+
+// ── Exit display mode (controller disconnected) ───────────────────────────────
+function exitDisplayMode() {
+  mode = 'idle';
+  syncWs = null;
+  document.getElementById('app').classList.remove('display-mode');
 }
 
 // ═══════════════════════════════════════
@@ -1021,6 +1290,12 @@ function fullReset(){
 // ═══════════════════════════════════════
 document.addEventListener('keydown',e=>{
   if(document.activeElement?.contentEditable==='true')return;
+  if(mode==='display')return; // no keyboard control on display device
+  if(mode==='sync'){
+    // Only ■ Stop (F6) active during sync — locks join window early
+    if(e.key==='F6'){e.preventDefault();lockJoinWindow();}
+    return;
+  }
   switch(e.key){
     case 'F5':e.preventDefault();startGameClock();break;
     case 'F6':e.preventDefault();stopGameClock();break;

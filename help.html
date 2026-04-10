@@ -570,7 +570,7 @@ body {
 <div class="hero">
   <h1>JustScore Help</h1>
   <p>Everything you need to run the scoreboard</p>
-  <span class="version-badge">Version 4.17 &nbsp;•&nbsp; April 2026</span>
+  <span class="version-badge">Version 4.19 &nbsp;•&nbsp; April 2026</span>
 </div>
 
 <!-- NAV PILLS -->
@@ -580,6 +580,7 @@ body {
   <a href="#games"      class="nav-pill">Game Presets</a>
   <a href="#controls"   class="nav-pill">Controls</a>
   <a href="#keyboard"   class="nav-pill">Keyboard</a>
+  <a href="#sync"       class="nav-pill">Remote Sync</a>
   <a href="#faq"        class="nav-pill">FAQ</a>
   <a href="#contact"    class="nav-pill">Contact</a>
 </nav>
@@ -759,7 +760,11 @@ body {
         <li><strong>Game Presets</strong> — Mini-Pro, College, Pro, Custom (checkmark shows active)</li>
         <li><strong>Help ↗</strong> — opens this help page</li>
         <li><strong>Keyboard Cheat Sheet ↗</strong> — quick-reference for all keyboard shortcuts</li>
-        <li><strong>Ver: v4.17 ↗</strong> — opens the release notes; glows amber when a new version is available</li>
+        <li><strong>Sync: Start</strong> — start a remote sync session as controller (see Remote Sync section)</li>
+        <li><strong>Sync: Join</strong> — join a session as a display device</li>
+        <li><strong>Help ↗</strong> — opens this help page</li>
+        <li><strong>Keyboard Cheat Sheet ↗</strong> — quick-reference for all keyboard shortcuts</li>
+        <li><strong>Ver: v4.19 ↗</strong> — opens the release notes; glows amber when a new version is available</li>
         <li><strong>Shop Our Hoops ↗</strong> — JustInTymeSports store</li>
         <li><strong>🔊 Enable Sound</strong> — iOS only; tap this once to unlock audio before the first buzzer</li>
       </ul>
@@ -824,6 +829,34 @@ body {
 
     <div class="highlight highlight-amber">
       <strong>Memory tip:</strong> Guest keys are on the left side of the keyboard (A S D F) — same side as the Guest team on screen. Home keys are on the right (J K L ;) — same side as the Home team.
+    </div>
+  </section>
+
+  <!-- REMOTE SYNC -->
+  <section class="section" id="sync">
+    <div class="section-header">
+      <div class="section-icon">📡</div>
+      <div class="section-title">Remote Sync</div>
+    </div>
+
+    <div class="highlight highlight-amber">
+      <strong>Share your scoreboard live with any device, anywhere.</strong> No shared network required — works across Wi-Fi, cellular, and different networks simultaneously.
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title">Controller (Scorekeeper)</div>
+      <p>Open the ☰ menu and tap <strong>Sync: Start</strong>. The game clock display switches to show a 4-digit code in amber. The shot clock counts down the 60-second join window. Read the code to your display device(s). All scoreboard controls are locked during setup except <strong>■ Stop</strong>, which closes the join window early once everyone is connected.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title">Display Device</div>
+      <p>Open the ☰ menu and tap <strong>Sync: Join</strong>. Enter the 4-digit code on the numeric pad. The display switches to scoreboard-only view — no controls, no menu. The scoreboard updates live as the controller scores and runs the clock.</p>
+      <p style="margin-top:8px">When the controller disconnects, the display reverts to normal mode on next load.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Works Everywhere</div>
+      <p>Controller and display devices do not need to be on the same network. A phone on your home Wi-Fi, a TV on a separate IoT network, and a family member in another state can all connect to the same live scoreboard using just the 4-digit code.</p>
     </div>
   </section>
 
