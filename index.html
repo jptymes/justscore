@@ -575,7 +575,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19b ↗</button>
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19c ↗</button>
       <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
@@ -684,9 +684,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- ROW 9: Ctrl bar -->
     <div id="ctrl-bar">
-      <button class="ctrl-btn ctrl-start" onclick="startGameClock()">▶ Start</button>
-      <button class="ctrl-btn ctrl-stop"  onclick="stopGameClock()">■ Stop</button>
-      <button class="ctrl-btn ctrl-reset" onclick="resetGameClock()">↺ Clock</button>
+      <button class="ctrl-btn ctrl-start" onclick="startGameClock();startShotClock()">▶ Start</button>
+      <button class="ctrl-btn ctrl-stop"  onclick="stopGameClock();stopShotClock()">■ Stop</button>
+      <button class="ctrl-btn ctrl-reset" onclick="resetGameClock();resetShotClock()">↺ Clock</button>
       <button class="ctrl-btn"            onclick="nextPeriod()">Period +1</button>
       <button class="ctrl-btn ctrl-danger" onclick="fullReset()">Full Reset</button>
     </div>
@@ -934,7 +934,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.19b';
+const CURRENT_VERSION = 'v4.19c';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -993,8 +993,9 @@ function updateFouls(team) {
   const ledId  = team==='home'?'homeFoulsLed':'guestFoulsLed';
   renderLedInCell(document.getElementById(cellId), document.getElementById(ledId),
     pad2(v), 'yellow', SPECS.small, false);
-  const manual = team==='home'?S.homeBonusManual:S.guestBonusManual;
-  document.getElementById(team+'Bonus').classList.toggle('on', manual||v>=S.preset.foulsBonus);
+  const bonusTeam = team==='home'?'guest':'home';
+  const manual = bonusTeam==='home'?S.homeBonusManual:S.guestBonusManual;
+  document.getElementById(bonusTeam+'Bonus').classList.toggle('on', manual||v>=S.preset.foulsBonus);
 }
 function updatePossession() {
   document.getElementById('homePoss').classList.toggle('active', S.possession==='home');
@@ -1101,14 +1102,14 @@ function addScore(team,pts){
 }
 function setPossession(team){S.possession=team;updatePossession();broadcastState();}
 function addFoul(team,n){
-  if(team==='home')S.homeFouls=Math.max(0,Math.min(9,S.homeFouls+n));
-  else S.guestFouls=Math.max(0,Math.min(9,S.guestFouls+n));
+  if(team==='home')S.homeFouls=Math.max(0,Math.min(99,S.homeFouls+n));
+  else S.guestFouls=Math.max(0,Math.min(99,S.guestFouls+n));
   updateFouls(team); broadcastState();
 }
 function toggleBonus(team){
   if(team==='home')S.homeBonusManual=!S.homeBonusManual;
   else S.guestBonusManual=!S.guestBonusManual;
-  updateFouls(team); broadcastState();
+  updateFouls(team==='home'?'guest':'home'); broadcastState();
 }
 function setPeriod(p){S.period=p;updatePeriodDots();broadcastState();}
 function nextPeriod(){
