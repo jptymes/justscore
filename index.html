@@ -385,7 +385,7 @@ html, body {
 #brand-name{font-size:clamp(9px,1.5vw,13px);letter-spacing:2px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;font-weight:700;}
 #brand-name .tall{font-size:1.15em;}
 sup{font-size:0.65em;vertical-align:super;line-height:0;}
-#brand-tag{font-size:clamp(7px,1.1vw,10px);letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;}
+#brand-tag{font-size:clamp(9px,1.5vw,13px);letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;}
 .lbl {
   font-family:'Oswald',sans-serif;
   font-size:clamp(9px,1.6vw,15px);
@@ -453,6 +453,10 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
 .ctrl-reset:hover{background:#110a00;border-color:#ffb300;}
 .ctrl-danger{border-color:#2a0008;color:#ff4444;}
 .ctrl-danger:hover{background:#150005;border-color:#ff2244;}
+.ctrl-blue{border-color:#001a2a;color:#40c4ff;}
+.ctrl-blue:hover{background:#000d15;border-color:#40c4ff;}
+.ctrl-dim{color:#888;border-color:#222;}
+.ctrl-dim:hover{background:#111;border-color:#555;color:#aaa;}
 
 @keyframes hornFlash{0%,100%{opacity:1}50%{opacity:0.08}}
 .horn-active .led-display{animation:hornFlash 0.25s ease-in-out 8;}
@@ -521,6 +525,166 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
 .sync-num-btn:active{transform:scale(0.93);}
 .sync-num-btn.back{color:#ff2244;border-color:#2a0008;}
 .sync-num-btn.cancel{color:#555;border-color:#222;}
+
+/* ═══════════════════════════════════════
+   HORSE MODE PANEL
+═══════════════════════════════════════ */
+#horse-panel {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  padding-left: clamp(36px,4vw,48px);
+  padding-right: clamp(4px,1vw,8px);
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: 1fr;
+}
+#horse-panel.active { display: grid; }
+
+/* Row 1: Game word */
+#horse-word-row {
+  grid-row: 1; grid-column: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 3px 0 2px;
+}
+#horse-word {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(14px, 2.8vw, 30px);
+  letter-spacing: 8px;
+  color: #ffb300;
+  text-shadow: 0 0 10px rgba(255,179,0,0.45);
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 2px 8px;
+  transition: background 0.2s;
+}
+#horse-word:hover { background: #111; }
+#horse-word:focus { outline: 1px solid #ffb300; background: #0d0800; white-space: normal; }
+#horse-word-sublbl {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(7px, 1.1vw, 10px);
+  letter-spacing: 2px; color: #333;
+  text-transform: uppercase; margin-top: 1px;
+}
+
+/* Row 2: Players area */
+#horse-players-area {
+  grid-row: 2; grid-column: 1;
+  display: flex; flex-direction: column;
+  min-height: 0;
+}
+#horse-top-row, #horse-bottom-row {
+  display: flex; flex: 1; min-height: 0;
+}
+#horse-bottom-row { display: none; }
+#horse-panel.show-bottom #horse-bottom-row { display: flex; }
+#horse-divider-line {
+  height: 2px; background: #fff;
+  display: none; margin: 0 8px; flex-shrink: 0;
+}
+#horse-panel.show-bottom #horse-divider-line { display: block; }
+
+/* Individual player slots */
+.horse-player {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: space-between;
+  overflow: hidden; padding: 0 clamp(4px,1vw,12px);
+  padding: 3px 4px;
+  min-width: 0; min-height: 0;
+  border-left: 1px solid #0d0d0d;
+}
+.horse-player:first-child { border-left: none; }
+.horse-player.hp-hidden { display: none; }
+
+.horse-player-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(11px, 2vw, 22px);
+  letter-spacing: 3px; color: #fff;
+  text-transform: uppercase; cursor: pointer;
+  padding: 2px 6px; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-radius: 3px; transition: background 0.2s;
+  width: 100%;
+}
+.horse-player-name:hover { background: #111; }
+.horse-player-name:focus { outline: 1px solid #ff2244; background: #0d0000; white-space: normal; }
+.horse-player.hp-eliminated .horse-player-name {
+  color: #ff2244; text-decoration: line-through;
+}
+
+.horse-player-letters {
+  display: flex; gap: clamp(2px,0.6vw,7px);
+  align-items: center; justify-content: center;
+  flex: 1; padding: 2px 0;
+  flex-wrap: nowrap; overflow: hidden; max-width: 100%;
+}
+.horse-letter {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(16px,7vw,80px);
+  font-weight: 700; text-transform: uppercase;
+  line-height: 1; transition: color 0.15s, text-shadow 0.15s;
+  flex-shrink: 1; min-width: 0;
+}
+.horse-letter.hl-earned {
+  color: #ffb300;
+  text-shadow: 0 0 8px rgba(255,179,0,0.7), 0 0 18px rgba(255,179,0,0.25);
+}
+.horse-letter.hl-unearned { color: #1d1d1d; text-shadow: none; }
+
+.horse-player-out {
+  display: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(12px,2.2vw,22px);
+  letter-spacing: 5px; color: #ff2244;
+  text-shadow: 0 0 10px rgba(255,34,68,0.5);
+  text-transform: uppercase; flex: 1;
+  align-items: center; justify-content: center;
+}
+.horse-player.hp-eliminated .horse-player-out { display: flex; }
+.horse-player.hp-eliminated .horse-player-letters { display: none; }
+
+.horse-player-btns {
+  display: flex; gap: clamp(6px,1.2vw,14px);
+  justify-content: center; padding: 3px 0;
+}
+.horse-player.hp-eliminated .horse-player-btns {
+  opacity: 0.2; pointer-events: none;
+}
+
+.horse-player-win {
+  display: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(12px,2.2vw,22px);
+  letter-spacing: 5px; color: #00e676;
+  text-shadow: 0 0 10px rgba(0,230,118,0.6);
+  text-transform: uppercase; flex: 1;
+  align-items: center; justify-content: center;
+}
+.horse-player.hp-winner .horse-player-name {
+  color: #00e676;
+  text-shadow: 0 0 8px rgba(0,230,118,0.5);
+}
+.horse-player.hp-winner .horse-player-win { display: flex; }
+.horse-player.hp-winner .horse-player-letters { display: none; }
+.horse-player.hp-winner .horse-player-btns { opacity: 0.2; pointer-events: none; }
+
+/* Row 3: Ctrl bar */
+#horse-ctrl-bar {
+  grid-row: 3; grid-column: 1;
+  display: flex; justify-content: center; align-items: center;
+  gap: clamp(4px,0.8vw,8px); padding: 3px 8px 4px; flex-wrap: wrap;
+}
+
+/* Row 4: Footer */
+#horse-footer-strip {
+  grid-row: 4; grid-column: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2px 10px 4px; border-top: 1px solid #111; gap: 10px;
+}
+#brand-tag-horse{font-size:clamp(9px,1.5vw,13px);letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;}
+.brand-name-horse{font-size:clamp(9px,1.5vw,13px);letter-spacing:2px;color:#fff;text-transform:uppercase;font-family:'Oswald',sans-serif;font-weight:700;}
 </style>
 </head>
 <body>
@@ -562,6 +726,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button class="flyout-item" data-game="college" onclick="selectGame('college');closeMenu()">College <span class="check" id="chk-college"></span></button>
       <button class="flyout-item" data-game="pro" onclick="selectGame('pro');closeMenu()">Pro <span class="check" id="chk-pro"></span></button>
       <button class="flyout-item" data-game="custom" onclick="selectGame('custom');closeMenu()">Custom <span class="check" id="chk-custom"></span></button>
+      <button class="flyout-item" data-game="horse" onclick="selectGame('horse');closeMenu()">HORSE <span class="check" id="chk-horse"></span></button>
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
@@ -575,7 +740,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.19c ↗</button>
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.20 ↗</button>
       <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
@@ -698,6 +863,105 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
   </div><!-- /scoreboard -->
+
+  <!-- HORSE MODE PANEL -->
+  <div id="horse-panel">
+
+    <!-- Row 1: Game word -->
+    <div id="horse-word-row">
+      <div id="horse-word" contenteditable="true" spellcheck="false" oninput="horseWordChanged()">HORSE</div>
+      <div id="horse-word-sublbl">Game Word</div>
+    </div>
+
+    <!-- Row 2: Players area -->
+    <div id="horse-players-area">
+
+      <!-- Top row: players 0, 1, 2 -->
+      <div id="horse-top-row">
+        <div class="horse-player" id="hp-0">
+          <div class="horse-player-name" id="hp-name-0" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER1</div>
+          <div class="horse-player-letters" id="hp-letters-0"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(0)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(0)">−</button>
+          </div>
+        </div>
+        <div class="horse-player" id="hp-1">
+          <div class="horse-player-name" id="hp-name-1" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER2</div>
+          <div class="horse-player-letters" id="hp-letters-1"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(1)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(1)">−</button>
+          </div>
+        </div>
+        <div class="horse-player hp-hidden" id="hp-2">
+          <div class="horse-player-name" id="hp-name-2" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER3</div>
+          <div class="horse-player-letters" id="hp-letters-2"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(2)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(2)">−</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="horse-divider-line"></div>
+
+      <!-- Bottom row: players 3, 4, 5 -->
+      <div id="horse-bottom-row">
+        <div class="horse-player hp-hidden" id="hp-3">
+          <div class="horse-player-name" id="hp-name-3" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER4</div>
+          <div class="horse-player-letters" id="hp-letters-3"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(3)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(3)">−</button>
+          </div>
+        </div>
+        <div class="horse-player hp-hidden" id="hp-4">
+          <div class="horse-player-name" id="hp-name-4" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER5</div>
+          <div class="horse-player-letters" id="hp-letters-4"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(4)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(4)">−</button>
+          </div>
+        </div>
+        <div class="horse-player hp-hidden" id="hp-5">
+          <div class="horse-player-name" id="hp-name-5" contenteditable="true" spellcheck="false" oninput="horsePlayerNameChanged(this)">PLAYER6</div>
+          <div class="horse-player-letters" id="hp-letters-5"></div>
+          <div class="horse-player-out">OUT</div>
+          <div class="horse-player-win">WIN</div>
+          <div class="horse-player-btns">
+            <button class="btn btn-green" onclick="horseAddLetter(5)">+</button>
+            <button class="btn btn-red"   onclick="horseRemoveLetter(5)">−</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /horse-players-area -->
+
+    <!-- Row 3: Ctrl bar -->
+    <div id="horse-ctrl-bar">
+      <button class="ctrl-btn ctrl-blue"  onclick="horseAddPlayer()">+ Player</button>
+      <button class="ctrl-btn ctrl-dim"   onclick="horseRemovePlayer()">− Player</button>
+      <button class="ctrl-btn ctrl-danger" onclick="horseNewGame()">New Game</button>
+    </div>
+
+    <!-- Row 4: Footer -->
+    <div id="horse-footer-strip">
+      <div id="brand-tag-horse">Dream Big. Play Hard.™</div>
+      <div id="brand-name-horse" class="brand-name-horse"><span class="tall">J</span>UST<span class="tall">I</span>N<span class="tall">T</span>YME<span class="tall">S</span>PORTS<sup>®</sup></div>
+    </div>
+
+  </div><!-- /horse-panel -->
 
   <!-- SYNC JOIN OVERLAY — display device enters 4-digit code -->
   <div id="sync-join-overlay">
@@ -934,7 +1198,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.19c';
+const CURRENT_VERSION = 'v4.20';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
@@ -1034,15 +1298,21 @@ function closeMenu(){
 // ═══════════════════════════════════════
 function selectGame(key) {
   stopGameClock(); stopShotClock();
+  const isHorse = key === 'horse';
+  document.getElementById('scoreboard').style.display = isHorse ? 'none' : '';
+  const hp = _horsePanel();
+  if (hp) hp.classList.toggle('active', isHorse);
+  // Update checkmarks for all game types
+  ['college','minipro','pro','custom','horse'].forEach(g=>{
+    const el=document.getElementById('chk-'+g); if(el) el.textContent=g===key?'✓':'';
+    const btn=document.querySelector('[data-game="'+g+'"]'); if(btn) btn.classList.toggle('active',g===key);
+  });
+  if (isHorse) { renderHorse(); return; }
   S.game=key; S.preset={...PRESETS[key]};
   S.gameSecs=S.preset.gameSecs; S.shotSecs=S.preset.shotSecs;
   S.homeScore=S.guestScore=0; S.homeFouls=S.guestFouls=0;
   S.homeBonusManual=S.guestBonusManual=false;
   S.period=1; S.possession='home';
-  ['college','minipro','pro','custom'].forEach(g=>{
-    const el=document.getElementById('chk-'+g); if(el) el.textContent=g===key?'✓':'';
-    const btn=document.querySelector('[data-game="'+g+'"]'); if(btn) btn.classList.toggle('active',g===key);
-  });
   renderAll();
 }
 
@@ -1127,6 +1397,167 @@ function fullReset(){
   S.homeBonusManual=S.guestBonusManual=false;
   S.gameSecs=S.preset.gameSecs; S.shotSecs=S.preset.shotSecs;
   S.possession='home'; S.period=1; renderAll(); broadcastState();
+}
+
+// ═══════════════════════════════════════
+//  HORSE MODE (v4.20)
+// ═══════════════════════════════════════
+const HORSE_MAX = 6;
+
+let SH = {
+  word: 'HORSE',
+  count: 2,
+  players: Array.from({length: HORSE_MAX}, () => ({ letters: 0, eliminated: false, winner: false })),
+};
+
+function _horsePanel() { return document.getElementById('horse-panel'); }
+
+function renderHorsePlayer(i) {
+  const p = SH.players[i];
+  const slot = document.getElementById('hp-' + i);
+  if (!slot) return;
+  // Visibility
+  slot.classList.toggle('hp-hidden', i >= SH.count);
+  if (i >= SH.count) return;
+  // Eliminated / winner state
+  slot.classList.toggle('hp-eliminated', p.eliminated);
+  slot.classList.toggle('hp-winner', p.winner);
+  // Names live in the DOM (contenteditable) — never overwrite them
+  // Letters
+  const lettersEl = document.getElementById('hp-letters-' + i);
+  if (lettersEl) {
+    lettersEl.innerHTML = '';
+    for (let j = 0; j < SH.word.length; j++) {
+      const span = document.createElement('span');
+      span.className = 'horse-letter ' + (j < p.letters ? 'hl-earned' : 'hl-unearned');
+      span.textContent = SH.word[j];
+      lettersEl.appendChild(span);
+    }
+  }
+}
+
+function renderHorse() {
+  const panel = _horsePanel();
+  if (!panel) return;
+  // Update word display (don't overwrite while editing)
+  const wordEl = document.getElementById('horse-word');
+  if (wordEl && document.activeElement !== wordEl) wordEl.textContent = SH.word;
+  // Show/hide bottom section
+  panel.classList.toggle('show-bottom', SH.count >= 4);
+  // Render all player slots
+  for (let i = 0; i < HORSE_MAX; i++) renderHorsePlayer(i);
+  setTimeout(resizeHorseLetters, 0);
+}
+
+function horseAddLetter(i) {
+  const p = SH.players[i];
+  if (p.eliminated || p.winner) return;
+  if (p.letters >= SH.word.length) return;
+  p.letters++;
+  if (p.letters === SH.word.length) {
+    p.eliminated = true;
+    playSound('horse');
+    // Check for winner — one non-eliminated active player remaining
+    if (SH.count >= 2) {
+      const remaining = [];
+      for (let j = 0; j < SH.count; j++) {
+        if (!SH.players[j].eliminated) remaining.push(j);
+      }
+      if (remaining.length === 1) {
+        const winnerIdx = remaining[0];
+        // Wait for horse.wav to finish before triggering winner sequence
+        const sfx = SFX['horse'];
+        const onEnded = () => {
+          sfx.removeEventListener('ended', onEnded);
+          SH.players[winnerIdx].winner = true;
+          playSound('applause');
+          renderHorsePlayer(winnerIdx);
+        };
+        sfx.addEventListener('ended', onEnded);
+      }
+    }
+  }
+  renderHorsePlayer(i);
+}
+
+function horseRemoveLetter(i) {
+  const p = SH.players[i];
+  if (p.letters <= 0) return;
+  p.letters--;
+  p.eliminated = false;
+  // If un-eliminating, also clear any winner (game is back in play)
+  if (SH.players.some(pl => pl.winner)) {
+    for (const pl of SH.players) pl.winner = false;
+    renderHorse();
+    return;
+  }
+  renderHorsePlayer(i);
+}
+
+function horseAddPlayer() {
+  if (SH.count >= HORSE_MAX) return;
+  SH.count++;
+  renderHorse();
+}
+
+function horseRemovePlayer() {
+  if (SH.count <= 1) return;
+  SH.count--;
+  renderHorse();
+}
+
+function horseNewGame() {
+  SH.word = 'HORSE';
+  for (const p of SH.players) { p.letters = 0; p.eliminated = false; p.winner = false; }
+  renderHorse();
+}
+
+function horsePlayerNameChanged(el) {
+  const raw = el.textContent.slice(0, 10);
+  if (el.textContent !== raw) el.textContent = raw;
+}
+
+function resizeHorseLetters() {
+  if (!document.getElementById('horse-panel')?.classList.contains('active')) return;
+  const word = SH.word || 'HORSE';
+  for (let i = 0; i < SH.count; i++) {
+    const playerEl = document.getElementById('hp-' + i);
+    if (!playerEl) continue;
+    const colWidth = playerEl.offsetWidth;
+    const fontSize = Math.min(80, Math.floor((colWidth - 16) / word.length * 1.4));
+    playerEl.querySelectorAll('.horse-letter').forEach(el => el.style.fontSize = fontSize + 'px');
+  }
+}
+
+function horseWordChanged() {
+  const wordEl = document.getElementById('horse-word');
+  if (!wordEl) return;
+  const raw = wordEl.textContent.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 10);
+  SH.word = raw || 'HORSE';
+  // Only rewrite DOM when chars were actually stripped or truncated (not just casing)
+  const alphaOnly = wordEl.textContent.replace(/[^A-Za-z]/g, '').slice(0, 10);
+  if (wordEl.textContent !== alphaOnly) { wordEl.textContent = raw; }
+  // Re-clamp any player letters that exceed new word length
+  for (const p of SH.players) {
+    if (p.letters > SH.word.length) p.letters = SH.word.length;
+    if (p.letters < SH.word.length) p.eliminated = false;
+  }
+  // Re-render letter displays without touching the word element itself
+  setTimeout(resizeHorseLetters, 0);
+  for (let i = 0; i < HORSE_MAX; i++) {
+    if (i < SH.count) {
+      const lettersEl = document.getElementById('hp-letters-' + i);
+      if (!lettersEl) continue;
+      lettersEl.innerHTML = '';
+      const p = SH.players[i];
+      for (let j = 0; j < SH.word.length; j++) {
+        const span = document.createElement('span');
+        span.className = 'horse-letter ' + (j < p.letters ? 'hl-earned' : 'hl-unearned');
+        span.textContent = SH.word[j];
+        lettersEl.appendChild(span);
+      }
+    }
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1336,7 +1767,10 @@ document.addEventListener('keydown',e=>{
 // ═══════════════════════════════════════
 window.addEventListener('resize',()=>{
   clearTimeout(window._rt);
-  window._rt=setTimeout(renderAll,150);
+  window._rt=setTimeout(()=>{
+    renderAll();
+    if(_horsePanel()&&_horsePanel().classList.contains('active'))renderHorse();
+  },150);
 });
 
 // ═══════════════════════════════════════
@@ -1407,6 +1841,8 @@ if (window.ResizeObserver) {
     }
   }, 50);
 }
+
+window.addEventListener('resize', resizeHorseLetters);
 
 // Splash screen — 3 second minimum + app ready (whichever is longer)
 const _splashStart = Date.now();
