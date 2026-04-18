@@ -1,4 +1,4 @@
-const CACHE = 'justscore-v4.20b';
+const CACHE = 'justscore-v4.20c';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/sw.js', '/favicon.ico',
   '/icon-72.png', '/icon-96.png', '/icon-120.png', '/icon-152.png',
