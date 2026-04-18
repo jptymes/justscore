@@ -162,7 +162,7 @@ html, body {
    APP — scanlines
 ═══════════════════════════════════════ */
 #app {
-  width: 100vw; height: 100vh;
+  width: 100vw; height: 100vh; height: 100dvh;
   background: #000;
   position: relative;
   overflow: hidden;
@@ -535,7 +535,7 @@ sup{font-size:0.65em;vertical-align:super;line-height:0;}
   top: 0; left: 0; right: 0; bottom: 0;
   padding-left: clamp(36px,4vw,48px);
   padding-right: clamp(4px,1vw,8px);
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto minmax(0,1fr) auto auto;
   grid-template-columns: 1fr;
 }
 #horse-panel.active { display: grid; }
@@ -740,7 +740,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="flyout-divider"></div>
     <div class="flyout-section">
-      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.20a ↗</button>
+      <button class="flyout-item link-item" id="version-menu-btn" onclick="window.open('https://justscore.justintymesports.net/releases.html','_blank');_markVersionSeen();closeMenu()">Ver: v4.20b ↗</button>
       <button class="flyout-item link-item" onclick="window.open('https://www.justintymesports.net','_blank');closeMenu()">Shop Our Hoops <span class="ext">↗</span></button>
     </div>
   </div>
@@ -1198,7 +1198,7 @@ window.addEventListener('load', () => {
 //  highlights the version menu item amber
 //  with "See What's New" label.
 // ═══════════════════════════════════════
-const CURRENT_VERSION = 'v4.20a';
+const CURRENT_VERSION = 'v4.20b';
 function _checkVersion() {
   try {
     const seen = localStorage.getItem('jsLastSeenVersion');
